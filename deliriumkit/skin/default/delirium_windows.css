@@ -1,0 +1,80 @@
+/*DELIRUM window*/
+.delirium_window{
+	position: fixed;	
+	top:0px;
+	left:0px;		
+	padding:0;
+	clear:both;
+	border-spacing:0;
+}
+.window_table{
+	border-collapse: collapse;
+	padding:0;
+	clear:both;
+	border-spacing:0;
+}
+.title_bar_title{
+	margin-top:5px;
+	text-shadow:#CCCCCC;
+	font-family:Verdana, Arial, Helvetica, sans-serif;
+	font-size:10px;
+	font-weight:bold;	
+	text-align:center;
+	cursor:move;
+	overflow:hidden;
+	position:absolute;
+	width:100%;	
+	top:0px;	
+	left:0px;
+	z-index:30;
+}
+.title_bar_button{
+	float: left;
+	margin-top:-11px;
+	margin-left:10Px;		
+}
+.border_left{
+	float:left;
+}
+.border_right{
+	float:right;
+}
+.content{
+	overflow:auto;	
+}
+.content_left{
+	background:#BCD5ED;
+}
+
+
+.header{
+	background-color: #ebeadb;
+	border-bottom: 1px solid #cbc7b8;		
+	font: normal 8pt arial;
+	left: 0;	
+	padding: 3px 5px;	
+	top: 0;	
+	-o-text-overflow: ellipsis;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.header A:link
+{
+	text-decoration: none;
+	text-decoration: underline; color: green;
+}
+
+.delirium_window_alert_text{
+	color:#0000FF;
+	font-weight:bold;
+	font-family:Verdana, Arial, Helvetica, sans-serif;
+}
+
+.window_center{	
+	position:absolute;
+	top: 25%;	
+	left: 25%;	
+	width: 50%;	
+	height: 50%;		
+}

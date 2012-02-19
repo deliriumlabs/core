@@ -1,0 +1,254 @@
+/*BOTONES*/
+.dd-tool{
+    cursor:pointer;
+}
+input.dd-tool{
+    -moz-border-radius-bottomleft:3px;
+    -moz-border-radius-bottomright:3px;
+    -moz-border-radius-topleft:3px;
+    -moz-border-radius-topright:3px;
+    background-color:#FFFFFF;
+    background-position:3px center;
+    border:1px solid #C1C1C1;	
+    font-family:"Lucida Grande","Lucida Sans Unicode",Tahoma,Verdana,sans-serif;
+    margin:3px;
+    padding:4px 1px 4px 1px;	
+}
+
+input.dd-tool:hover{
+    background-color:#F0FFE6 !important;
+}
+
+.dd-tool span{
+    display: none;
+}
+
+.accept{
+	background:transparent url(images/toolbox/accept.png) no-repeat scroll 0 50%;	
+	padding:4px 1px 4px 20px !important;	
+}
+
+.anchor{
+	background:transparent url(images/toolbox/anchor.png) no-repeat scroll 0 50%;	
+	padding:4px 1px 4px 20px !important;	
+}
+
+.application_edit{
+	background:transparent url(images/toolbox/application_edit.png) no-repeat scroll 0 50%;	
+	padding:4px 1px 4px 20px !important;	
+}
+
+.application_error{
+	background:transparent url(images/toolbox/application_error.png) no-repeat scroll 0 50%;	
+	padding:4px 1px 4px 20px !important;	
+}
+
+.barcode{
+	background:transparent url(images/toolbox/barcode.png) no-repeat scroll 0 50%;	
+	padding:4px 1px 4px 20px !important;	
+}
+
+.bullet_disk{
+	background:transparent url(images/toolbox/bullet_disk.png) no-repeat scroll 0 50%;	
+	padding:4px 1px 4px 20px !important;	
+}
+
+.bullet_toggle_minus{
+	background:transparent url(images/toolbox/bullet_toggle_minus.png) no-repeat scroll 0 50%;	
+	padding:4px 1px 4px 20px !important;	
+}
+
+.bullet_toggle_plus{
+	background:transparent url(images/toolbox/bullet_toggle_plus.png) no-repeat scroll 0 50%;	
+	padding:4px 1px 4px 20px !important;	
+}
+
+.bullet_wrench{
+	background:transparent url(images/toolbox/bullet_wrench.png) no-repeat scroll 0 50%;	
+	padding:4px 1px 4px 20px !important;	
+}
+
+.cancel{
+	background:transparent url(images/toolbox/cancel.png) no-repeat scroll 0 50%;	
+	padding:4px 1px 4px 20px !important;	
+}
+
+.chart_bar_add{
+	background:transparent url(images/toolbox/chart_bar_add.png) no-repeat scroll 0 50%;	
+	padding:4px 1px 4px 20px !important;	
+}
+
+.color_swatch{
+	background:transparent url(images/toolbox/color_swatch.png) no-repeat scroll 0 50%;	
+	padding:4px 1px 4px 20px !important;	
+}
+
+.database_add{
+	background:transparent url(images/toolbox/database_add.png) no-repeat scroll 0 50%;	
+	padding:4px 1px 4px 20px !important;	
+}
+
+.database_connect{
+	background:transparent url(images/toolbox/database_connect.png) no-repeat scroll 0 50%;	
+	padding:4px 1px 4px 20px !important;	
+}
+
+.database_delete{
+	background:transparent url(images/toolbox/database_delete.png) no-repeat scroll 0 50%;	
+	padding:4px 1px 4px 20px !important;	
+}
+
+.database_edit{
+	background:transparent url(images/toolbox/database_edit.png) no-repeat scroll 0 50%;	
+	padding:4px 1px 4px 20px !important;	
+}
+
+.database_error{
+	background:transparent url(images/toolbox/database_error.png) no-repeat scroll 0 50%;	
+	padding:4px 1px 4px 20px !important;	
+}
+
+.database_gear{
+	background:transparent url(images/toolbox/database_gear.png) no-repeat scroll 0 50%;	
+	padding:4px 1px 4px 20px !important;	
+}
+
+.database_go{
+	background:transparent url(images/toolbox/database_go.png) no-repeat scroll 0 50%;	
+	padding:4px 1px 4px 20px !important;	
+}
+
+.database_key{
+	background:transparent url(images/toolbox/database_key.png) no-repeat scroll 0 50%;	
+	padding:4px 1px 4px 20px !important;	
+}
+
+.database_lightning{
+	background:transparent url(images/toolbox/database_lightning.png) no-repeat scroll 0 50%;	
+	padding:4px 1px 4px 20px !important;	
+}
+
+.database_link{
+	background:transparent url(images/toolbox/database_link.png) no-repeat scroll 0 50%;	
+	padding:4px 1px 4px 20px !important;	
+}
+
+.database{
+	background:transparent url(images/toolbox/database.png) no-repeat scroll 0 50%;	
+	padding:4px 1px 4px 20px !important;	
+}
+
+.database_refresh{
+	background:transparent url(images/toolbox/database_refresh.png) no-repeat scroll 0 50%;	
+	padding:4px 1px 4px 20px !important;	
+}
+
+.database_save{
+	background:transparent url(images/toolbox/database_save.png) no-repeat scroll 0 50%;	
+	padding:4px 1px 4px 20px !important;	
+}
+
+.database_table{
+	background:transparent url(images/toolbox/database_table.png) no-repeat scroll 0 50%;	
+	padding:4px 1px 4px 20px !important;	
+}
+
+.label{
+	background:transparent url(images/toolbox/label.png) no-repeat scroll 0 50%;	
+	padding:4px 1px 4px 20px !important;	
+}
+
+.picture{
+	background:transparent url(images/toolbox/picture.png) no-repeat scroll 0 50%;	
+	padding:4px 1px 4px 20px !important;	
+}
+
+.printer{
+	background:transparent url(images/toolbox/printer.png) no-repeat scroll 0 50%;	
+	padding:4px 1px 4px 20px !important;	
+}
+
+.report{
+	background:transparent url(images/toolbox/report.png) no-repeat scroll 0 50%;	
+	padding:4px 1px 4px 20px !important;	
+}
+
+.resultset_first{
+	background:transparent url(images/toolbox/resultset_first.png) no-repeat scroll 0 50%;	
+	padding:4px 1px 4px 20px !important;	
+}
+
+.resultset_last{
+	background:transparent url(images/toolbox/resultset_last.png) no-repeat scroll 0 50%;	
+	padding:4px 1px 4px 20px !important;	
+}
+
+.resultset_next{
+	background:transparent url(images/toolbox/resultset_next.png) no-repeat scroll 0 50%;	
+	padding:4px 1px 4px 20px !important;	
+}
+
+.resultset_previous{
+	background:transparent url(images/toolbox/resultset_previous.png) no-repeat scroll 0 50%;	
+	padding:4px 1px 4px 20px !important;	
+}
+
+.server{
+	background:transparent url(images/toolbox/server.png) no-repeat scroll 0 50%;	
+	padding:4px 1px 4px 20px !important;	
+}
+
+.text_align_center{
+	background:transparent url(images/toolbox/text_align_center.png) no-repeat scroll 0 50%;	
+	padding:4px 1px 4px 20px !important;	
+}
+
+.text_align_justify{
+	background:transparent url(images/toolbox/text_align_justify.png) no-repeat scroll 0 50%;	
+	padding:4px 1px 4px 20px !important;	
+}
+
+.text_align_left{
+	background:transparent url(images/toolbox/text_align_left.png) no-repeat scroll 0 50%;	
+	padding:4px 1px 4px 20px !important;	
+}
+
+.text_align_right{
+	background:transparent url(images/toolbox/text_align_right.png) no-repeat scroll 0 50%;	
+	padding:4px 1px 4px 20px !important;	
+}
+
+.text_bold{
+	background:transparent url(images/toolbox/text_bold.png) no-repeat scroll 0 50%;	
+	padding:4px 1px 4px 20px !important;	
+}
+
+.textfield{
+	background:transparent url(images/toolbox/textfield.png) no-repeat scroll 0 50%;	
+	padding:4px 1px 4px 20px !important;	
+}
+
+.text_italic{
+	background:transparent url(images/toolbox/text_italic.png) no-repeat scroll 0 50%;	
+	padding:4px 1px 4px 20px !important;	
+}
+
+.text_strikethrough{
+	background:transparent url(images/toolbox/text_strikethrough.png) no-repeat scroll 0 50%;	
+	padding:4px 1px 4px 20px !important;	
+}
+
+.text_underline{
+	background:transparent url(images/toolbox/text_underline.png) no-repeat scroll 0 50%;	
+	padding:4px 1px 4px 20px !important;	
+}
+
+.fx{
+	background:transparent url(images/toolbox/script_code_red.png) no-repeat scroll 0 50%;	
+	padding:4px 1px 4px 20px !important;	
+}
+
+.var{
+	background:transparent url(images/toolbox/keyboard.png) no-repeat scroll 0 50%;	
+	padding:4px 1px 4px 20px !important;	
+}

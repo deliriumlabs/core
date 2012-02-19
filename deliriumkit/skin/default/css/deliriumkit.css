@@ -1,0 +1,310 @@
+body,html {
+	margin:0;
+	padding:0;
+	height:100%;
+	background-image:url('../../../../../media/images/bg.png');
+	color:DarkOrange;
+}
+
+* {
+margin:0pt;
+padding:0pt;
+color:DarkOrange;
+}
+#body{
+	min-height: 100%; 
+	height:100%;
+	margin:0pt auto;
+	padding:0pt 0px;	
+	width:100%;
+}
+#encabezado{
+	color:#6E7174;
+	font-size:1.2em;
+	height:132px;	
+	background-color:LightSteelBlue;
+	background: url('../img/strip.png') repeat-x;	
+}
+
+#encabezado  #logo{
+float:left;
+height:95px;
+margin:30px 0pt 0pt;
+padding:0pt;
+width:175px;
+
+}
+
+
+
+#encabezado  #menuprincipal{
+	background-color:#4E4F45;
+	color:#F4F4EA;
+	font-weight:bold;
+	height:24px;
+	left:0pt;
+	position:absolute;
+	top:0pt;
+	width:100%;
+	z-index:3000;
+}
+
+
+#encabezado  #menuprincipal  div  ul{
+	float:right;
+	list-style-image:none;
+	list-style-position:outside;
+	list-style-type:none;
+	font-weight:bold;
+	font-family:Arial,Helvetica,Geneva,sans-serif;
+	font-size:9px;
+}
+#encabezado  #menuprincipal  div  ul  li {
+	float:left;
+	margin:5px;
+}
+#encabezado  #menuprincipal  div  ul  li a {
+	color:#FFFFFF;
+	text-decoration:none;
+	margin-left:1em;
+	
+}
+#encabezado  #menuprincipal  div  ul  li a:hover {
+	background-color:#181815;
+}
+
+#encabezado  #menuprincipal  div  ul li.primero  a:link,
+#encabezado  #menuprincipal  div  ul li.primero  a:visited{
+	background-image:none;
+}
+
+#encabezado  #menuprincipal  div  ul li.ultimo{
+	float:left;
+}
+
+
+#encabezado  #menuprincipal  div  ul  li  a:link, 
+#encabezado  #menuprincipal  div  ul  li li a:visited {	
+	color:#F4F4EA;
+	display:block;
+	/*padding:4px 6px 0pt;*/
+	text-decoration:none;
+}
+
+#menu_opciones{	
+	position:absolute;
+	top:106px;
+	left:0px;
+}
+#menu_opciones ul{
+	list-style-image:none;
+	list-style-position:outside;
+	list-style-type:none;	
+	font-family:Sans-serif;
+	font-size:14px;
+}
+#menu_opciones ul li{
+ 	float:left;
+	margin:5px;
+}
+#menu_opciones ul li a{
+	background:transparent none repeat scroll 0%;
+	border-color:#CCCCCC rgb(204, 204, 204) -moz-use-text-color;
+	border-style:solid solid none;
+	border-width:1px 1px 0pt;
+	color:#FFFFFF;
+	display:block;
+	padding:5px;
+	padding-bottom:0px;
+	text-decoration:none;
+	font-weight:bold;
+	text-transform:uppercase;
+}
+
+#menu_opciones ul li a:hover{
+	background:#F9F9F9 none repeat scroll 0%;
+	color:#E2144A;
+}
+
+
+#contenido{
+	text-align:center;
+	width:100%;
+}
+
+/*formularios*/
+form.cform fieldset {
+	width:auto;
+}
+form.cform fieldset dl {
+	font:normal 12px/15px Arial;
+    position: relative;
+    width: 100%;
+	display:block;
+	clear:both;
+}
+form.cform  fieldset dl dt {
+    clear: both;
+    float:left;
+    width: 130px;
+    padding: 4px 0 2px 0;
+    text-align: left;
+	/*display:-moz-inline-box;*/
+}
+form.cform  fieldset dl dd {
+    float: left;
+    width: 200px;
+    margin: 0 0 8px 0;
+    padding-left: 6px;	
+	/*display:-moz-inline-box;*/
+}
+
+.delirium_search_cell{	
+	font: normal 8pt arial;	
+	padding: 3px 5px;	
+	border-bottom: 1px solid lightgrey;
+	border-left: 1px solid lightgrey;
+	cursor: default;
+	display: table-cell;
+	height: 100%;
+	-moz-outline: none;
+	-moz-user-focus: normal;	
+	background-color:#FFFFFF;
+}
+delirium_search_results_css{
+	border:1px solid black;
+	
+}
+#delirium_search_results_css td.delirium_search_cell:hover{	
+	font: normal 8pt arial;	
+	padding: 3px 5px;
+	/*white-space: nowrap;*/
+	border-bottom: 1px solid #f1efe2;
+	border-left: 1px solid #f1efe2;
+	cursor: default;
+	display: table-cell;
+	height: 100%;
+	-moz-outline: none;
+	-moz-user-focus: normal;	
+	background-color:#CCCCCC;
+} 
+.delirium_search_cell INPUT[type="text"]{	
+	width:auto;
+	background-color:#FFFFFF;
+}
+
+.delirium_search_cell2{	
+	font: normal 8pt arial;	
+	padding: 3px 5px;	
+	border-bottom: 1px solid #f1efe2;
+	border-left: 1px solid #f1efe2;
+	cursor: default;
+	display: table-cell;
+	height: 100%;
+	-moz-outline: none;
+	-moz-user-focus: normal;	
+	background-color:#E1E1E1;
+}
+.delirium_search_cell2 INPUT[type="text"]{	
+	
+	background-color:#E1E1E1;
+}
+
+#delirium_search_results_css td.delirium_search_cell2:hover{	
+	font: normal 8pt arial;	
+	padding: 3px 5px;	
+	border-bottom: 1px solid #f1efe2;
+	border-left: 1px solid #f1efe2;
+	cursor: default;
+	display: table-cell;
+	height: 100%;
+	-moz-outline: none;
+	-moz-user-focus: normal;	
+	background-color:#CCCCCC;
+}
+.delirium_search_header{
+	background-color: #ebeadb;
+	border-bottom: 1px solid #cbc7b8;		
+	cursor: pointer;	
+	font: normal 8pt arial;
+	left: 0;	
+	padding: 3px 5px;	
+	top: 0;	
+	-o-text-overflow: ellipsis;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+
+#delirium_search_results_css td.delirium_search_header:hover{
+	border-bottom: 2px solid #fcc247;
+	background-color: #faf9f4;
+	border-bottom: 1px solid #f9a900;
+}
+#delirium_search_results_css A:link
+{
+	text-decoration: none;
+	text-decoration: underline; color: green;
+}
+
+/*#delirium_search_query {
+	background: transparent url(../../images/default/searchbox.gif) 16px 4px no-repeat ;
+	height: 27px;
+	position: relative;
+	width: 165px;
+	margin:0;			
+	
+}
+#delirium_search_query input {
+	background: transparent;
+	border: none;
+	color: #000;
+	margin: 6px 0 0 17px;
+	width: 120px;
+	font-size:11px;
+	/*text-align:left;*/
+  /*}
+  */
+.header{
+	background-color: #ebeadb;
+	border-bottom: 1px solid #cbc7b8;		
+	font: normal 8pt arial;
+	left: 0;	
+	padding: 3px 5px;	
+	top: 0;	
+	-o-text-overflow: ellipsis;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	color:#000000;
+}
+
+.cell{	
+	font: normal 8pt arial;	
+	padding: 3px 5px;	
+	border-bottom: 1px solid lightgrey;
+	border-left: 1px solid lightgrey;
+	cursor: default;	
+	height: 100%;
+	-moz-outline: none;
+	-moz-user-focus: normal;	
+	background-color:#FFFFFF;
+}
+.row{
+	font: normal 8pt arial;	
+	padding: 3px 5px;	
+}
+.row td{
+	font: normal 8pt arial;	
+	padding: 3px 5px;	
+	border-bottom: 1px solid lightgrey;
+	border-left: 1px solid lightgrey;	
+
+	-moz-outline: none;
+	-moz-user-focus: normal;	
+	background-color:#FFFFFF;
+	vertical-align:top;
+}
+INPUT[type="select"],Select{
+	font: normal 8pt verdana;		
+	/*padding:2px;*/
+}
