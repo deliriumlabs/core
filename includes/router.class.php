@@ -217,17 +217,23 @@ class Router{
             return false;
         }
         $dirHandle = opendir($dirName);
+        $type_avoid= array(
+            '.', 
+            '..', 
+            '.DS_Store', 
+            '.svn', 
+            'views' 
+        );
         while(false !== ($incFile = readdir($dirHandle))) {
-            if(filetype("$dirName/$incFile")=='file'){
+            if(is_file("$dirName/$incFile")){
                 $file_name=$dirName.$incFile;
                 if(strtoupper($incFile) == strtoupper($pattern)){
                     $path=$dirName;
                     closedir($dirHandle);
                     return $file_name;
                 }
-            }elseif($incFile != '.' && $incFile != '..' && $incFile != '.DS_Store' && $incFile != '.svn' && filetype("$dirName/$incFile") == 'dir'){
-                if($more && $incFile!='views'){
-
+            }elseif(!in_array($incFile, $type_avoid) && is_dir("$dirName/$incFile") ){
+                if($more){
                     $path=$this->searchFileRecurse($dirName.$incFile.DIRSEP,$pattern,true);
                     if($path!=false){
                         closedir($dirHandle);
@@ -240,6 +246,7 @@ class Router{
 
         return $path;
     }
+
     function loadController($controller){
 
             $controller_path = '';

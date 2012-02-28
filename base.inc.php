@@ -10,16 +10,17 @@ function includeRecurse($dirName,$more=true) {
    }
    $dirHandle = opendir($dirName);
    $type_avoid= array(
-       '.', 
-       '..', 
-       '.DS_Store', 
-       '.svn' 
+        '.', 
+        '..', 
+        '.DS_Store', 
+        '.svn',
+        'views' 
    );
    while(false !== ($incFile = readdir($dirHandle))) {   		
 		if(!in_array($incFile, $type_avoid) && !stristr($incFile,'install.php') && !stristr($incFile,'model.php') &&!stristr($incFile,'controller.php')){	           
             include($dirName.$incFile);
-		}elseif(!in_array($incFile, $type_avoid) && !stristr($incFile,'install.php') && !stristr($incFile,'model.php') &&!stristr($incFile,'controller.php')){
-			if($more && $incFile!='views'){						
+        }elseif(!in_array($incFile, $type_avoid) && is_dir("$dirName/$incFile") ){
+			if($more){						
                 includeRecurse($dirName.$incFile.DIRSEP,true);				
 			}
 		}		

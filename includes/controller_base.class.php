@@ -64,11 +64,10 @@ class Controller_Base{
         $this->app_dir_name=explode("/",$this->app_path);
 
         if($in_core==1){
-            $this->app_dir_name='core/apps/'.$this->app_dir_name[sizeof($this->app_dir_name)-2].'/views';
+            $this->app_dir_name = 'core/apps/'.$this->app_dir_name[sizeof($this->app_dir_name)-2].'/views';
         }else{
             $this->app_dir_name='apps/'.$this->app_dir_name[sizeof($this->app_dir_name)-2].'/views';
         }
-
         $this->apps_path=$path_apps;
     }
 
@@ -110,17 +109,24 @@ class Controller_Base{
             return false;
         }
         $dirHandle = opendir($dirName);
+        $type_avoid= array(
+            '.', 
+            '..', 
+            '.DS_Store', 
+            '.svn', 
+            'views' 
+        );
         while(false !== ($incFile = readdir($dirHandle))) {
-            if(filetype("$dirName/$incFile")=='file'){
+            if(is_file("$dirName/$incFile")){
                 $file_name=$dirName.$incFile;
                 if(strtoupper($incFile) == strtoupper($pattern)){
                     $path=$dirName;
                     closedir($dirHandle);
                     return $file_name;
                 }
-            }elseif($incFile != '.' && $incFile != '..' && $incFile != '.DS_Store' && $incFile != '.svn' && filetype("$dirName/$incFile") == 'dir'){
-                if($more && $incFile!='views'){
-
+            //}elseif($incFile != '.' && $incFile != '..' && $incFile != '.DS_Store' && $incFile != '.svn' && filetype("$dirName/$incFile") == 'dir'){
+            }elseif(!in_array($incFile, $type_avoid) && is_dir("$dirName/$incFile") ){
+                if($more){
                     $path=$this->searchFileRecurse($dirName.$incFile.DIRSEP,$pattern,true);
                     if($path!=false){
                         closedir($dirHandle);
@@ -162,7 +168,7 @@ class Controller_Base{
 
         $this->model=new $class();
 
-        return true;
+        return $this->model;
     }
 
     function setModelTo($model=''){
@@ -228,7 +234,6 @@ class Controller_Base{
         }
         $template = $this->app_path . 'views' . DIRSEP . $template ;
 
-        $data['PATH_TPL']=$this->app_dir_name;
         $template = new Template($template);
 
         if(!isset($_SESSION['lang'])){
@@ -237,14 +242,20 @@ class Controller_Base{
 
         /****************ARCHIVO DE LENGUAJE CENTRALIZADO LENGUAJE GLOBAL***********************/
         $lang=array();
-        $langfile = $this->searchFileRecurse(PATH_APPS,$this->app_name.'.lang.'.$_SESSION['lang'].'.php');
+        $lang_included = 0;
+        $backtrace = debug_backtrace();
+        $langfile = $this->searchFileRecurse(dirname($backtrace[0]['file']).'/lang/', $this->app_name.'.lang.'.$_SESSION['lang'].'.php');
         if($langfile == ''){
+            $langfile = $this->searchFileRecurse(PATH_APPS,$this->app_name.'.lang.'.$_SESSION['lang'].'.php');
+        }else if($langfile == ''){
             $langfile = $this->searchFileRecurse(PATH_CORE_APPS,$this->app_name.'.lang.'.$_SESSION['lang'].'.php');
         }
+
         if ( is_file($langfile) ){
             include($langfile);
             $template->lang=$lang;
             $template->replace_lang($_SESSION['lang']);
+            $lang_included = 1;
         }
 
         /*###############ARCHIVO DE LENGUAJE CENTRALIZADO LENGUAJE GLOBAL#######################*/
@@ -253,9 +264,8 @@ class Controller_Base{
             $data['window_id']="$('".$_REQUEST['window_id']."')";
         }
 
-
         $template->replace_tags($data);
-        if ( is_file($langfile) ){
+        if ( $lang_included ){
             $template->replace_lang($_SESSION['lang']);
         }
         $template->replace_tags($_SESSION);
@@ -269,20 +279,6 @@ class Controller_Base{
             $template->replace_lang($_SESSION['lang']);
         }
         /*###############ARCHIVO DE LENGUAJE GLOBAL#######################*/
-         
-
-        /****************ARCHIVO DE LENGUAJE GLOBAL CARPETA CORE***********************/
-        $lang=array();
-        $langfile = PATH_CORE_APPS.'/langs/lang.'.$_SESSION['lang'].'.php' ;
-        if ( is_file($langfile) ){
-            include($langfile);
-            $template->lang=$lang;
-            $template->replace_lang($_SESSION['lang']);
-        }
-        /*###############ARCHIVO DE LENGUAJE GLOBAL CARPETA CORE#######################*/
-
-        /*###############ARCHIVO DE LENGUAJE CENTRALIZADO LENGUAJE GLOBAL#######################*/
-
 
         $template->output();
     }
@@ -294,7 +290,6 @@ class Controller_Base{
             header('Content-Type: text/html; charset=iso-8859-1');
         }
 
-        $data['PATH_TPL']=$this->app_dir_name;
         $template = new Template($template);
 
         if(!isset($_SESSION['lang'])){
@@ -303,14 +298,20 @@ class Controller_Base{
 
         /****************ARCHIVO DE LENGUAJE CENTRALIZADO LENGUAJE GLOBAL***********************/
         $lang=array();
-        $langfile = $this->searchFileRecurse(PATH_APPS,$this->app_name.'.lang.'.$_SESSION['lang'].'.php');
+        $lang_included = 0;
+        $backtrace = debug_backtrace();
+        $langfile = $this->searchFileRecurse(dirname($backtrace[0]['file']).'/lang/', $this->app_name.'.lang.'.$_SESSION['lang'].'.php');
         if($langfile == ''){
+            $langfile = $this->searchFileRecurse(PATH_APPS,$this->app_name.'.lang.'.$_SESSION['lang'].'.php');
+        }else if($langfile == ''){
             $langfile = $this->searchFileRecurse(PATH_CORE_APPS,$this->app_name.'.lang.'.$_SESSION['lang'].'.php');
         }
+
         if ( is_file($langfile) ){
             include($langfile);
             $template->lang=$lang;
             $template->replace_lang($_SESSION['lang']);
+            $lang_included = 1;
         }
 
         /*###############ARCHIVO DE LENGUAJE CENTRALIZADO LENGUAJE GLOBAL#######################*/
@@ -319,9 +320,8 @@ class Controller_Base{
             $data['window_id']="$('".$_REQUEST['window_id']."')";
         }
 
-
         $template->replace_tags($data);
-        if ( is_file($langfile) ){
+        if ( $lang_included ){
             $template->replace_lang($_SESSION['lang']);
         }
         $template->replace_tags($_SESSION);
@@ -335,7 +335,6 @@ class Controller_Base{
             $template->replace_lang($_SESSION['lang']);
         }
         /*###############ARCHIVO DE LENGUAJE GLOBAL#######################*/
-
 
         $template->output();
     }
@@ -352,21 +351,26 @@ class Controller_Base{
         $template = $this->app_path . 'views' . DIRSEP . $template ;
         $template = new Template($template);
 
-
         if(!isset($_SESSION['lang'])){
             $_SESSION['lang']='es';
         }
 
         /****************ARCHIVO DE LENGUAJE CENTRALIZADO LENGUAJE GLOBAL***********************/
         $lang=array();
-        $langfile = $this->searchFileRecurse(PATH_APPS,$this->app_name.'.lang.'.$_SESSION['lang'].'.php');
+        $lang_included = 0;
+        $backtrace = debug_backtrace();
+        $langfile = $this->searchFileRecurse(dirname($backtrace[0]['file']).'/lang/', $this->app_name.'.lang.'.$_SESSION['lang'].'.php');
         if($langfile == ''){
+            $langfile = $this->searchFileRecurse(PATH_APPS,$this->app_name.'.lang.'.$_SESSION['lang'].'.php');
+        }else if($langfile == ''){
             $langfile = $this->searchFileRecurse(PATH_CORE_APPS,$this->app_name.'.lang.'.$_SESSION['lang'].'.php');
         }
+
         if ( is_file($langfile) ){
             include($langfile);
             $template->lang=$lang;
             $template->replace_lang($_SESSION['lang']);
+            $lang_included = 1;
         }
 
         /*###############ARCHIVO DE LENGUAJE CENTRALIZADO LENGUAJE GLOBAL#######################*/
@@ -375,9 +379,8 @@ class Controller_Base{
             $data['window_id']="$('".$_REQUEST['window_id']."')";
         }
 
-
         $template->replace_tags($data);
-        if ( is_file($langfile) ){
+        if ( $lang_included ){
             $template->replace_lang($_SESSION['lang']);
         }
         $template->replace_tags($_SESSION);
@@ -400,7 +403,6 @@ class Controller_Base{
             header('Content-Type: text/html; charset=iso-8859-1');
         }       
 
-        $data['PATH_TPL']=$this->app_dir_name;
         $template = new Template($template);
 
         if(!isset($_SESSION['lang'])){
@@ -409,14 +411,20 @@ class Controller_Base{
 
         /****************ARCHIVO DE LENGUAJE CENTRALIZADO LENGUAJE GLOBAL***********************/
         $lang=array();
-        $langfile = $this->searchFileRecurse(PATH_APPS,$this->app_name.'.lang.'.$_SESSION['lang'].'.php');
+        $lang_included = 0;
+        $backtrace = debug_backtrace();
+        $langfile = $this->searchFileRecurse(dirname($backtrace[0]['file']).'/lang/', $this->app_name.'.lang.'.$_SESSION['lang'].'.php');
         if($langfile == ''){
+            $langfile = $this->searchFileRecurse(PATH_APPS,$this->app_name.'.lang.'.$_SESSION['lang'].'.php');
+        }else if($langfile == ''){
             $langfile = $this->searchFileRecurse(PATH_CORE_APPS,$this->app_name.'.lang.'.$_SESSION['lang'].'.php');
         }
+
         if ( is_file($langfile) ){
             include($langfile);
             $template->lang=$lang;
             $template->replace_lang($_SESSION['lang']);
+            $lang_included = 1;
         }
 
         /*###############ARCHIVO DE LENGUAJE CENTRALIZADO LENGUAJE GLOBAL#######################*/
@@ -425,9 +433,8 @@ class Controller_Base{
             $data['window_id']="$('".$_REQUEST['window_id']."')";
         }
 
-
         $template->replace_tags($data);
-        if ( is_file($langfile) ){
+        if ( $lang_included ){
             $template->replace_lang($_SESSION['lang']);
         }
         $template->replace_tags($_SESSION);
@@ -450,7 +457,6 @@ class Controller_Base{
             header('Content-Type: text/html; charset=iso-8859-1');
         }       
 
-        $data['PATH_TPL']=$this->app_dir_name;
         $template = new Template($template);
 
         if(!isset($_SESSION['lang'])){
@@ -459,14 +465,20 @@ class Controller_Base{
 
         /****************ARCHIVO DE LENGUAJE CENTRALIZADO LENGUAJE GLOBAL***********************/
         $lang=array();
-        $langfile = $this->searchFileRecurse(PATH_APPS,$this->app_name.'.lang.'.$_SESSION['lang'].'.php');
+        $lang_included = 0;
+        $backtrace = debug_backtrace();
+        $langfile = $this->searchFileRecurse(dirname($backtrace[0]['file']).'/lang/', $this->app_name.'.lang.'.$_SESSION['lang'].'.php');
         if($langfile == ''){
+            $langfile = $this->searchFileRecurse(PATH_APPS,$this->app_name.'.lang.'.$_SESSION['lang'].'.php');
+        }else if($langfile == ''){
             $langfile = $this->searchFileRecurse(PATH_CORE_APPS,$this->app_name.'.lang.'.$_SESSION['lang'].'.php');
         }
+
         if ( is_file($langfile) ){
             include($langfile);
             $template->lang=$lang;
             $template->replace_lang($_SESSION['lang']);
+            $lang_included = 1;
         }
 
         /*###############ARCHIVO DE LENGUAJE CENTRALIZADO LENGUAJE GLOBAL#######################*/
@@ -475,9 +487,8 @@ class Controller_Base{
             $data['window_id']="$('".$_REQUEST['window_id']."')";
         }
 
-
         $template->replace_tags($data);
-        if ( is_file($langfile) ){
+        if ( $lang_included ){
             $template->replace_lang($_SESSION['lang']);
         }
         $template->replace_tags($_SESSION);
@@ -491,7 +502,6 @@ class Controller_Base{
             $template->replace_lang($_SESSION['lang']);
         }
         /*###############ARCHIVO DE LENGUAJE GLOBAL#######################*/
-
 
         return $template->get();
     }
@@ -519,10 +529,13 @@ class Controller_Base{
 
         /****************ARCHIVO DE LENGUAJE CENTRALIZADO LENGUAJE GLOBAL***********************/
         $lang=array();
-        $langfile = $this->searchFileRecurse(PATH_APPS,$this->app_name.'.lang.'.$_SESSION['lang'].'.php');
+        $langfile = $this->searchFileRecurse($data['PATH_TPL'],$this->app_name.'.lang.'.$_SESSION['lang'].'.php');
         if($langfile == ''){
+            $langfile = $this->searchFileRecurse(PATH_APPS,$this->app_name.'.lang.'.$_SESSION['lang'].'.php');
+        }else if($langfile == ''){
             $langfile = $this->searchFileRecurse(PATH_CORE_APPS,$this->app_name.'.lang.'.$_SESSION['lang'].'.php');
         }
+
         if ( is_file($langfile) ){
             include($langfile);
             $template->lang=$lang;
