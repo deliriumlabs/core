@@ -225,7 +225,9 @@ class Controller_Base{
             $controller_path='core/'.$controller_path;
         }
 
-        include ($controller_path);
+        if( !class_exists('Controller_'.$controller) ){
+            include ($controller_path);
+        }
     }
 
     function renderTemplate($template,$data=array(),$writeheader=true){
@@ -234,6 +236,7 @@ class Controller_Base{
         }
         $template = $this->app_path . 'views' . DIRSEP . $template ;
 
+        $data['PATH_TPL']=$this->app_dir_name;
         $template = new Template($template);
 
         if(!isset($_SESSION['lang'])){
@@ -290,6 +293,7 @@ class Controller_Base{
             header('Content-Type: text/html; charset=iso-8859-1');
         }
 
+        $data['PATH_TPL']=$this->app_dir_name;
         $template = new Template($template);
 
         if(!isset($_SESSION['lang'])){
@@ -403,6 +407,7 @@ class Controller_Base{
             header('Content-Type: text/html; charset=iso-8859-1');
         }       
 
+        $data['PATH_TPL']=$this->app_dir_name;
         $template = new Template($template);
 
         if(!isset($_SESSION['lang'])){
@@ -457,6 +462,7 @@ class Controller_Base{
             header('Content-Type: text/html; charset=iso-8859-1');
         }       
 
+        $data['PATH_TPL']=$this->app_dir_name;
         $template = new Template($template);
 
         if(!isset($_SESSION['lang'])){
