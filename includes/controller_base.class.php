@@ -78,17 +78,23 @@ class Controller_Base{
             return false;
         }
         $dirHandle = opendir($dirName);
+        $type_avoid= array(
+            '.', 
+            '..', 
+            '.DS_Store', 
+            '.svn', 
+            'views' 
+        );
         while(false !== ($incFile = readdir($dirHandle))) {
-            if(filetype("$dirName/$incFile")=='file'){
+            if(is_file("$dirName/$incFile")){
                 $file_name=$dirName.$incFile;
                 if(strtoupper($incFile) == strtoupper($pattern)){
                     $path=$dirName;
                     closedir($dirHandle);
                     return $path;
                 }
-            }elseif($incFile != '.' && $incFile != '..' && $incFile != '.DS_Store' && $incFile != '.svn' && filetype("$dirName/$incFile") == 'dir'){
-                if($more && $incFile!='views'){
-
+            }elseif(!in_array($incFile, $type_avoid) && is_dir("$dirName/$incFile") ){
+                if($more){
                     $path=$this->searchFilePathRecurse($dirName.$incFile.DIRSEP,$pattern,true);
                     if($path!=false){
                         closedir($dirHandle);
@@ -141,24 +147,18 @@ class Controller_Base{
     }
 
     function setModel($model=''){
+        $backtrace = debug_backtrace();
         $model_path = '';
-        $model_path = $this->searchFileRecurse(PATH_APPS,$model.'.model.php');
+        $model_path = $this->searchFileRecurse(dirname($backtrace[0]['file']).'/',$model.'.model.php');
         $in_core = 0;
+        if($model_path == ''){
+            $model_path = $this->searchFileRecurse(PATH_APPS,$model.'.model.php');
+        }
         if($model_path == ''){
             $model_path = $this->searchFileRecurse(PATH_CORE_APPS,$model.'.model.php');
             $in_core = 1;
         }            
 
-        $model_path=str_replace("\\","/",$model_path);
-        $model_path=str_replace("//","/",$model_path);
-
-        $strloc = strrpos($model_path,'/apps/');
-
-        $model_path = substr($model_path,$strloc+1);
-
-        if($in_core==1){
-            $model_path='core/'.$model_path;
-        }
         // Inicializar la clase
         $class = 'Model_' . $model;
 
@@ -172,24 +172,17 @@ class Controller_Base{
     }
 
     function setModelTo($model=''){
+        $backtrace = debug_backtrace();
         $model_path = '';
-        $model_path = $this->searchFileRecurse(PATH_APPS,$model.'.model.php');
+        $model_path = $this->searchFileRecurse(dirname($backtrace[0]['file']).'/',$model.'.model.php');
         $in_core = 0;
+        if($model_path == ''){
+            $model_path = $this->searchFileRecurse(PATH_APPS,$model.'.model.php');
+        }
         if($model_path == ''){
             $model_path = $this->searchFileRecurse(PATH_CORE_APPS,$model.'.model.php');
             $in_core = 1;
         }            
-
-        $model_path=str_replace("\\","/",$model_path);
-        $model_path=str_replace("//","/",$model_path);
-
-        $strloc = strrpos($model_path,'/apps/');
-
-        $model_path = substr($model_path,$strloc+1);
-
-        if($in_core==1){
-            $model_path='core/'.$model_path;
-        }
 
         // Inicializar la clase
         $class = 'Model_' . $model;
@@ -197,7 +190,6 @@ class Controller_Base{
         if(!class_exists($class)){
             include ($model_path);
         }
-
 
         $this->$model=new $class();
 
@@ -250,7 +242,8 @@ class Controller_Base{
         $langfile = $this->searchFileRecurse(dirname($backtrace[0]['file']).'/lang/', $this->app_name.'.lang.'.$_SESSION['lang'].'.php');
         if($langfile == ''){
             $langfile = $this->searchFileRecurse(PATH_APPS,$this->app_name.'.lang.'.$_SESSION['lang'].'.php');
-        }else if($langfile == ''){
+        }
+        if($langfile == ''){
             $langfile = $this->searchFileRecurse(PATH_CORE_APPS,$this->app_name.'.lang.'.$_SESSION['lang'].'.php');
         }
 
@@ -307,7 +300,8 @@ class Controller_Base{
         $langfile = $this->searchFileRecurse(dirname($backtrace[0]['file']).'/lang/', $this->app_name.'.lang.'.$_SESSION['lang'].'.php');
         if($langfile == ''){
             $langfile = $this->searchFileRecurse(PATH_APPS,$this->app_name.'.lang.'.$_SESSION['lang'].'.php');
-        }else if($langfile == ''){
+        }
+        if($langfile == ''){
             $langfile = $this->searchFileRecurse(PATH_CORE_APPS,$this->app_name.'.lang.'.$_SESSION['lang'].'.php');
         }
 
@@ -366,7 +360,8 @@ class Controller_Base{
         $langfile = $this->searchFileRecurse(dirname($backtrace[0]['file']).'/lang/', $this->app_name.'.lang.'.$_SESSION['lang'].'.php');
         if($langfile == ''){
             $langfile = $this->searchFileRecurse(PATH_APPS,$this->app_name.'.lang.'.$_SESSION['lang'].'.php');
-        }else if($langfile == ''){
+        }
+        if($langfile == ''){
             $langfile = $this->searchFileRecurse(PATH_CORE_APPS,$this->app_name.'.lang.'.$_SESSION['lang'].'.php');
         }
 
@@ -421,7 +416,8 @@ class Controller_Base{
         $langfile = $this->searchFileRecurse(dirname($backtrace[0]['file']).'/lang/', $this->app_name.'.lang.'.$_SESSION['lang'].'.php');
         if($langfile == ''){
             $langfile = $this->searchFileRecurse(PATH_APPS,$this->app_name.'.lang.'.$_SESSION['lang'].'.php');
-        }else if($langfile == ''){
+        } 
+        if($langfile == ''){
             $langfile = $this->searchFileRecurse(PATH_CORE_APPS,$this->app_name.'.lang.'.$_SESSION['lang'].'.php');
         }
 
@@ -476,7 +472,8 @@ class Controller_Base{
         $langfile = $this->searchFileRecurse(dirname($backtrace[0]['file']).'/lang/', $this->app_name.'.lang.'.$_SESSION['lang'].'.php');
         if($langfile == ''){
             $langfile = $this->searchFileRecurse(PATH_APPS,$this->app_name.'.lang.'.$_SESSION['lang'].'.php');
-        }else if($langfile == ''){
+        }
+        if($langfile == ''){
             $langfile = $this->searchFileRecurse(PATH_CORE_APPS,$this->app_name.'.lang.'.$_SESSION['lang'].'.php');
         }
 
