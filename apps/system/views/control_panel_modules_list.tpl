@@ -137,7 +137,7 @@
                 <input type="checkbox" id="todos_ninguno" name="todos_ninguno" onclick="marcar_desmarcar();" >
             </th>
 			<th>
-                <input type="button" value="Reinstalar modulos seleccionados" class="btn btn_gear" onclick="instalar_modulos_lista();"/>
+                <input type="button" value="Actualizar modulos seleccionados" class="btn btn_gear" onclick="instalar_modulos_lista();"/>
 			</th>
 		</tr>
     </thead>
@@ -158,7 +158,7 @@
             </td>
             <td align="center">
                 &nbsp;&nbsp;&nbsp;
-                <input class="btn btn_gear" type="button" onclick="mvcPost('System::admin_modulos_info','uuid=[uuid]','','instalar_modulo');"; value="Reinstalar" />
+                <input class="btn btn_gear" type="button" onclick="mvcPost('System::admin_modulos_info','uuid=[uuid]','','instalar_modulo');"; value="Actualizar" />
             </td>
 		</tr>
 		{{END lista_modulos}}
