@@ -10,6 +10,8 @@ class Model_CoreNotificaciones{
                 id_to = '{$_SESSION['id_usuario']}'
             AND
                 bol_notificaciones = 1
+            ORDER BY
+                dtm_fecha DESC
             ";
         return query2array($strSql);
     }

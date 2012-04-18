@@ -4,6 +4,17 @@ if(!class_exists('Model_System')){
     {	
 
         function list_installers(){
+            $_modulo=array();		
+            $files=$this->searchRecurse(PATH_APPS,"install.php");
+            for($x=0;$x<sizeof($files);$x++){
+                include($files[$x]);			
+            }				
+
+            $files=$this->searchRecurse(PATH_CORE_APPS,"install.php");
+            for($x=0;$x<sizeof($files);$x++){
+                include($files[$x]);			
+            }				
+
             $strSQLModulos="
                 SELECT
                 *,
@@ -15,7 +26,22 @@ if(!class_exists('Model_System')){
                     core_cat_modulos modulos
                     ORDER BY ord_titulo
                 ";
-            return query2array($strSQLModulos);
+            //return query2array($strSQLModulos);
+            $modulos_registrados = query2array($strSQLModulos);
+            $total_modulos_registrados = sizeof($modulos_registrados);
+            //debug_array($_modulo);
+            $i = 0; while ($i < $total_modulos_registrados) {
+                $modulo = $modulos_registrados[$i];
+
+                if($modulo['uuid'] == isset_or($_modulo['modulo_'.$modulo['uuid']]['uuid'], '')){
+                    $test = $_modulo['modulo_'.$modulo['uuid']];
+                    if($modulo['version'] != $test['version'] || $modulo['ultima_revision'] != $test['ultima_revision'] ){
+                        $modulos_registrados[$i]['_row_class_'] = 'modulo_actualizado';
+                    }
+                }
+                ++$i;
+            }
+            return $modulos_registrados;
 
         }
 
@@ -87,6 +113,24 @@ if(!class_exists('Model_System')){
                 VALUES
                 ('$titulo','$autor','$version','$ultima_revision','$info','$uuid')";
             query($strSQLRegistrar);
+            echo_sql($strSQLRegistrar);
+        }
+
+        function actualizar_modulo($data){
+            extract($data);
+            $strSql = "
+                UPDATE
+                    core_cat_modulos 
+                SET
+                    titulo = '$titulo',
+                    autor = '$autor',
+                    version = '$version',
+                    ultima_revision = '$ultima_revision',
+                    info = '$info'
+                WHERE
+                    uuid = '$uuid'
+                ";
+            query($strSql);
         }
 
         function descomprimir_modulo(){		

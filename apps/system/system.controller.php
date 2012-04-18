@@ -264,6 +264,7 @@ if(!class_exists('Controller_System')){
             setMsg($paso['label']);
             echo "|";
             $this->renderText(notificaciones());
+            $this->model->actualizar_modulo($_modulo['modulo_'.$_REQUEST['uuid']]);
         }
 
         function admin_modulo_registrar(){
