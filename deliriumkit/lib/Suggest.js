@@ -37,6 +37,7 @@ var Suggest=function(options){
 	var me=this;
 	this.item_highlighted=0;
 	this.id=null;
+	this.mvc_request = null;
 	this.items=[];	
 	this.options={		
 		url:'',
@@ -82,7 +83,11 @@ var Suggest=function(options){
 			//})
 			this.options.last_query=query;
 			//AJAXRequest[id].doGet();
-            mvcPost(this.options.url,this.options.params+'&query='+encode(query)+'&'+this.options.vars,'',function(response){me.show(response, me);});
+			if(this.mvc_request){
+                this.mvc_request.abort();
+                me.cc.innerHTML="";
+            }
+            this.mvc_request = mvcPost(this.options.url,this.options.params+'&query='+encode(query)+'&'+this.options.vars,'',function(response){me.show(response, me);});
 			
 		}
 		this.TimeOutStop();

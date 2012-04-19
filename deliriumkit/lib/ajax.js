@@ -83,6 +83,11 @@ deliriumkit.prototype.AJAX.prototype={
 			}
 		}
 	},
+    abort:function(){
+        if(this._httpObject){
+            this._httpObject.abort();
+        }
+    },
 	send:function(){	
 		if(this.onProcess){
 			return false;	
@@ -187,6 +192,7 @@ deliriumkit.prototype.AJAX.prototype={
 		this.onComplete=this.options._onComplete;
 		this._httpObject.onreadystatechange=this.eval_state.bind(this);
 		this._httpObject.send(this.options._params);		
+		return this;
 	},
 	eval_state:function(){		
 		var state=this._httpObject.readyState;
@@ -544,7 +550,7 @@ function mvcPost(mvc,params,target,callback){
 		delete AJAXRequest['_ajax_request'+id];		
 		
 	})
-	AJAXRequest['_ajax_request'+id].doPost();	
+	return AJAXRequest['_ajax_request'+id].doPost();	
 }
 
 function urlPost(_url,params,target,callback, headers){
