@@ -64,7 +64,7 @@ class Template{
         $lang=$lang[$languaje_id];
         if (sizeof($lang) > 0){
             foreach ($lang as $tag => $data) {			    			   	
-                $this->template = preg_replace('/%' . $tag . '%/', $data,$this->template);   			   				   	
+                $this->template = preg_replace('/%' . preg_quote($tag,"/") . '%/', $data,$this->template);   			   				   	
             }		    
         }else{
             //die("No hay tags que remplazar.");
