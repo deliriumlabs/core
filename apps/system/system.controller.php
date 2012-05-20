@@ -39,10 +39,18 @@ if(!class_exists('Controller_System')){
         }
 
         function setup(){
+            if(file_exists(PATH_ROOT."config.php")){
+                echo 'El sistema ya se configuro';
+                exit();
+            }
             $this->renderTemplate("setup.tpl");
         }
 
         function setup_step_1(){
+            if(file_exists(PATH_ROOT."config.php")){
+                echo 'El sistema ya se configuro';
+                exit();
+            }
 
             $template['db_name']="";
             $template['db_username']="";
@@ -55,6 +63,10 @@ if(!class_exists('Controller_System')){
         }
 
         function setup_do(){
+            if(file_exists(PATH_ROOT."config.php")){
+                echo 'El sistema ya se configuro';
+                exit();
+            }
             $setupdb=array();
             $db_name  = trim($_POST['db_name']);
             $db_username   = trim($_POST['db_username']);
@@ -186,6 +198,10 @@ if(!class_exists('Controller_System')){
         }	
 
         function setup_modulo(){
+            if(file_exists(PATH_ROOT."config.php")){
+                echo 'El sistema ya se configuro';
+                exit();
+            }
             $setupdb=array();
             include_once(PATH_CORE. 'base.sql.php');
             $next=$_REQUEST['nid']+1;

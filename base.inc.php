@@ -139,4 +139,16 @@ function query2vars_old($query){
 	}		
 	return $return_array;
 }
+
+function user_log($chr_tipo_evento = '', $txt_evento = ''){
+    $id_usuario = isset_or($_SESSION['id_usuario'], 0);
+    $strSql = "
+        INSERT INTO core_tbl_log 
+        (ip, id_usuario, chr_tipo_evento, txt_evento) 
+        VALUES 
+        (INET_ATON('{$_SERVER['REMOTE_ADDR']}'), $id_usuario, '$chr_tipo_evento', '$txt_evento') 
+        ";
+    @mysql_query($strSql);
+    
+}
 ?>

@@ -179,37 +179,6 @@ class Router{
         $file = $cmd_path . $controller . '.controller.php';
     }
 
-    function searchFilePathRecurse($dirName,$pattern,$more=true) {
-        $file='';
-        $path=false;
-        if(!is_dir($dirName)){
-            return false;
-        }
-        $dirHandle = opendir($dirName);
-        while(false !== ($incFile = readdir($dirHandle))) {
-            if(filetype("$dirName/$incFile")=='file'){
-                $file_name=$dirName.$incFile;
-                if(stristr($file_name,$pattern)){
-                    $path=$dirName;
-                    closedir($dirHandle);
-                    return $path;
-                }
-            }elseif($incFile != '.' && $incFile != '..' && $incFile != '.DS_Store' && $incFile != '.svn' && filetype("$dirName/$incFile") == 'dir'){
-                if($more && $incFile!='views'){
-
-                    $path=$this->searchFilePathRecurse($dirName.$incFile.DIRSEP,$pattern,true);
-                    if($path!=false){
-                        closedir($dirHandle);
-                        return $path;
-                    }
-                }
-            }
-        }
-        closedir($dirHandle);
-
-        return $path;
-    }
-
     function searchFileRecurse($dirName,$pattern,$more=true) {
         $file='';
         $path=false;
@@ -249,31 +218,32 @@ class Router{
 
     function loadController($controller){
 
-            $controller_path = '';
-            $controller_path = $this->searchFileRecurse(PATH_APPS,$controller.'.controller.php');
-            $in_core = 0;
-            if($controller_path == ''){
-                $controller_path = $this->searchFileRecurse(PATH_CORE_APPS,$controller.'.controller.php');
-                $in_core = 1;
-            }            
+        $controller_path = '';
+        $controller_path = $this->searchFileRecurse(PATH_APPS,$controller.'.controller.php');
+        $in_core = 0;
+        if($controller_path == ''){
+            $controller_path = $this->searchFileRecurse(PATH_CORE_APPS,$controller.'.controller.php');
+            $in_core = 1;
+        }            
 
-            $controller_path=str_replace('\\','/',$controller_path);
-            $controller_path=str_replace('//','/',$controller_path);
+        $controller_path=str_replace('\\','/',$controller_path);
+        $controller_path=str_replace('//','/',$controller_path);
 
-            $strloc = strrpos($controller_path,'/apps/');
+        $strloc = strrpos($controller_path,'/apps/');
 
-            $controller_path = substr($controller_path,$strloc+1);
+        $controller_path = substr($controller_path,$strloc+1);
 
-            if($in_core==1){
-                $controller_path='core/'.$controller_path;
-            }
+        if($in_core==1){
+            $controller_path='core/'.$controller_path;
+        }
 
-            if( filetype($controller_path) == 'file'){
-                include($controller_path);
-            }else{
-                die ("<div class='error'>Controlador <i>$controller</i> no encontrado</div> ");
-            }
+        if( filetype($controller_path) == 'file'){
+            include($controller_path);
+        }else{
+            die ("<div class='error'>Controlador <i>$controller</i> no encontrado</div> ");
+        }
     }
+
     /**
      * Carga el controlador correcto
      *
