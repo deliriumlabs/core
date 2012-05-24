@@ -14,6 +14,7 @@ class Template{
     }
 
     function parse($file) {
+        ob_end_flush();
         clearstatcache();
         ob_start();
         include($file);
@@ -30,6 +31,7 @@ class Template{
     }
 
     function parseText($text) {
+        ob_end_flush();
         clearstatcache();
         ob_start();
         echo ($text);
