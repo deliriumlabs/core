@@ -79,29 +79,42 @@ class Router{
 
     }
 
-    function searchRecurse(&$cmd_path,$file,$dirName,$more=true) {
-        $path='';
-        if(!is_dir($dirName)){	               		
+    function searchRecurse(&$path,$pattern,$dirName,$more=true) {
+        $file='';
+        $path=false;
+        if(!is_dir($dirName)){
             return false;
         }
-        $dirHandle = opendir($dirName);     
-        while(false !== ($incFile = readdir($dirHandle))) {           	
-            if(filetype("$dirName$incFile")=='file'){
-                echo "$dirName$incFile";				               
-                if($file=="$dirName$incFile"){
-                    closedir($dirHandle);										
-                    $path="$dirName";
-                    break;
-                }									
-            }elseif($incFile != '.' && $incFile != '..' && $incFile != '.DS_Store' && $incFile != '.svn' && filetype("$dirName/$incFile") == 'dir'){
-                if($more && ($incFile!='views' && $incFile!='models')){						
-                    $path=$this->searchRecurse($file,$dirName.$incFile.DIRSEP,true);				
+        $dirHandle = opendir($dirName);
+        $type_avoid= array(
+            '.', 
+            '..', 
+            '.DS_Store', 
+            '.svn', 
+            'views' 
+        );
+        while(false !== ($incFile = readdir($dirHandle))) {
+            if(is_file("$dirName/$incFile")){
+                $file_name=$dirName.$incFile;
+                if(strtoupper($incFile) == strtoupper($pattern)){
+                    $path=$dirName;
+                    closedir($dirHandle);
+                    return $file_name;
                 }
-            }		
-        }	  
+            //}elseif($incFile != '.' && $incFile != '..' && $incFile != '.DS_Store' && $incFile != '.svn' && filetype("$dirName/$incFile") == 'dir'){
+            }elseif(!in_array($incFile, $type_avoid) && is_dir("$dirName/$incFile") ){
+                if($more){
+                    $path=$this->searchFileRecurse($dirName.$incFile.DIRSEP,$pattern,true);
+                    if($path!=false){
+                        closedir($dirHandle);
+                        return $path;
+                    }
+                }
+            }
+        }
         closedir($dirHandle);
 
-        $cmd_path= $path;
+        return $path;
     }
 
     /**	 	 	 

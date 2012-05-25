@@ -202,7 +202,11 @@ deliriumkit.prototype.AJAX.prototype={
 				case 200:																															
 					
 					if(this.writeto!=null){
-						this.writeto.innerHTML=this._httpObject.responseText;						
+                        if(!debug_enabled){
+                            this.writeto.innerHTML=this._httpObject.responseText.strip_tags('<script[\\s\\S]*?\\>[\\s\\S]*?\\<\/script>');						
+                        }else{
+                            this.writeto.innerHTML=this._httpObject.responseText;						
+                        }
 					}
 					
 					this.evalSTYLE(this._httpObject.responseText);												

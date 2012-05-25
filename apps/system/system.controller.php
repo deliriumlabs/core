@@ -198,10 +198,10 @@ if(!class_exists('Controller_System')){
         }	
 
         function setup_modulo(){
-            if(file_exists(PATH_ROOT."config.php")){
-                echo 'El sistema ya se configuro';
-                exit();
-            }
+            //if(file_exists(PATH_ROOT."config.php")){
+                //echo 'El sistema ya se configuro';
+                //exit();
+            //}
             $setupdb=array();
             include_once(PATH_CORE. 'base.sql.php');
             $next=$_REQUEST['nid']+1;
