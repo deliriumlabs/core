@@ -52,6 +52,15 @@ $_SESSION['_SID_']=time();
 if(file_exists($path_root."config.php")){
 
     include($path_root."config.php");
+    if ( defined('DEBUG') && TRUE===DEBUG ) { 
+        error_reporting(E_ALL); 
+        ini_set("display_errors", 1);
+        FB::setEnabled(true); 
+    }else{
+        error_reporting(0); 
+        ini_set("display_errors", 0);
+        FB::setEnabled(false); 
+    }
     if( is_file($path_root."site_config.php" )){
         include($path_root."site_config.php");
     }

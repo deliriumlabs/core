@@ -40,11 +40,17 @@ function _autoload($class_name) {
 	includeRecurse($dirName);
 }
 
-function query($query){
-    $debuginfo = debug_backtrace();
+function query($query, $debuginfo = ''){
+    if($debuginfo === ''){
+        $debuginfo = debug_backtrace();
+    }
     $debug_str = '<b>Archivo</b> : '.$debuginfo[0]['file'].'<br />';
     $debug_str .= '<b>Linea</b> : '.$debuginfo[0]['line'].'<br />';
-    $result=mysql_query($query) or die($debug_str.'<b>'.mysql_error().'</b>'.'<br/><b>SQL:</b><br /><pre >'.$query.'</pre>');
+    if ( defined('DEBUG') && TRUE===DEBUG ) { 
+        $result=mysql_query($query) or die($debug_str.'<b>'.mysql_error().'</b>'.'<br/><b>SQL:</b><br /><pre >'.$query.'</pre>');
+    }else{
+        $result=mysql_query($query) or die('Ha ocurrido un error notif&iacute;quelo al administrador del sistema.');
+    }
     return $result;
 }
 
@@ -52,7 +58,7 @@ function query2array_old($query){
     $debuginfo = debug_backtrace();
     $debug_str = '<b>Archivo</b> : '.$debuginfo[0]['file'].'<br />';
     $debug_str .= '<b>Linea</b> : '.$debuginfo[0]['line'].'<br />';
-	$result=mysql_query($query) or die($debug_str.'<b>'.mysql_error().'</b>'.'<br/><b>SQL:</b><br /><pre >'.$query.'</pre>');
+    $result = query($query, $debuginfo);
 	$tmp_array=array();
 	$return_array=array();			
 	while ($obj = mysql_fetch_object($result)) {
@@ -68,7 +74,7 @@ function query2array($query){
     $debuginfo = debug_backtrace();
     $debug_str = '<b>Archivo</b> : '.$debuginfo[0]['file'].'<br />';
     $debug_str .= '<b>Linea</b> : '.$debuginfo[0]['line'].'<br />';
-	$result=mysql_query($query) or die($debug_str.'<b>'.mysql_error().'</b>'.'<br/><b>SQL:</b><br /><pre >'.$query.'</pre>');
+    $result = query($query, $debuginfo);
 	$tmp_array=array();
 	$return_array=array();			
 	while ($obj = mysql_fetch_object($result)) {
@@ -84,7 +90,7 @@ function query2SingleArray($query){
     $debuginfo = debug_backtrace();
     $debug_str = '<b>Archivo</b> : '.$debuginfo[0]['file'].'<br />';
     $debug_str .= '<b>Linea</b> : '.$debuginfo[0]['line'].'<br />';
-	$result=mysql_query($query) or die($debug_str.'<b>'.mysql_error().'</b>'.'<br/><b>SQL:</b><br /><pre >'.$query.'</pre>');
+    $result = query($query, $debuginfo);
 	$tmp_array=array();
 	$return_array=array();			
 	while ($obj = mysql_fetch_object($result)) {
@@ -100,7 +106,7 @@ function query2ArrayRow($query){
     $debuginfo = debug_backtrace();
     $debug_str = '<b>Archivo</b> : '.$debuginfo[0]['file'].'<br />';
     $debug_str .= '<b>Linea</b> : '.$debuginfo[0]['line'].'<br />';
-	$result=mysql_query($query) or die($debug_str.'<b>'.mysql_error().'</b>'.'<br/><b>SQL:</b><br /><pre >'.$query.'</pre>');
+    $result = query($query, $debuginfo);
 	$tmp_array=array();
 	$return_array=array();			
 	while ($obj = mysql_fetch_object($result)) {
@@ -116,7 +122,7 @@ function query2vars($query){
     $debuginfo = debug_backtrace();
     $debug_str = '<b>Archivo</b> : '.$debuginfo[0]['file'].'<br />';
     $debug_str .= '<b>Linea</b> : '.$debuginfo[0]['line'].'<br />';
-	$result=mysql_query($query) or die($debug_str.'<b>'.mysql_error().'</b>'.'<br/><b>SQL:</b><br /><pre >'.$query.'</pre>');
+    $result = query($query, $debuginfo);
 	$return_array=array();			
 	while ($obj = mysql_fetch_object($result)) {
 			$return_array = (array) $obj;
@@ -130,7 +136,7 @@ function query2vars_old($query){
     $debuginfo = debug_backtrace();
     $debug_str = '<b>Archivo</b> : '.$debuginfo[0]['file'].'<br />';
     $debug_str .= '<b>Linea</b> : '.$debuginfo[0]['line'].'<br />';
-	$result=mysql_query($query) or die($debug_str.'<b>'.mysql_error().'</b>'.'<br/><b>SQL:</b><br /><pre >'.$query.'</pre>');
+    $result = query($query, $debuginfo);
 	$return_array=array();			
 	while ($obj = mysql_fetch_object($result)) {
 		foreach($obj as $key => $value) {				
