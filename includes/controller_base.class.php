@@ -163,7 +163,12 @@ class Controller_Base{
         $class = 'Model_' . $model;
 
         if(!class_exists($class)){
-            include ($model_path);
+            if(file_exists($model_path)){
+                include ($model_path);
+            }else{
+                $this->renderText('<div class="error"> Modelo '.$model.' no encontrado<div>');
+                return false;
+            }
         }
 
         $this->model=new $class();
