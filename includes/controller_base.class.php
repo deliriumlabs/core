@@ -166,7 +166,13 @@ class Controller_Base{
             if(file_exists($model_path)){
                 include ($model_path);
             }else{
-                $this->renderText('<div class="error"> Modelo '.$model.' no encontrado<div>');
+                if ( defined('DEBUG') && TRUE===DEBUG ) { 
+                    $debug_str = '<b>Archivo</b> : '.$backtrace[0]['file'].'<br />';
+                    $debug_str .= '<b>Linea</b> : '.$backtrace[0]['line'].'<br />';
+                    $this->renderText('<div class="warning"> Modelo <b>'.$model.'</b> no encontrado en '.$debug_str.'</div>');
+                }else{
+                    $this->renderText('<div class="warning"> Ha ocurrido un error notif&iacute;quelo al administrador del sistema.</div>');
+                }
                 return false;
             }
         }
