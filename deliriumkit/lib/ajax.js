@@ -352,66 +352,50 @@ deliriumkit.prototype.AJAX.prototype={
 
 								if(trim(form.change_target)=="multipart/form-data"){										
 									var span_iframe = document.createElement('span');
-									span_iframe.innerHTML="<iframe style=\"\" src=\"about:blank\" id=\"iframe_"+form.id+"\" name=\"iframe_"+form.id+"\" onload=\"if(this.ok){var tmp=_getDocumentBody();setTimeout(function(){try{parent."+_afterSubmit+"(tmp+'');}catch(e){alert(e)};},1);}else{this.ok=true;}\" ></iframe>";
+									span_iframe.innerHTML="<iframe style=\"\" src=\"about:blank\" id=\"iframe_"+form.id+"\" name=\"iframe_"+form.id+"\" xonload=\"if(this.ok){var tmp=_getDocumentBody();setTimeout(function(){try{parent."+_afterSubmit+"(tmp+'');}catch(e){alert(e)};},1);}else{this.ok=true;}\" ></iframe>";
 									form.appendChild(span_iframe);
 									iframe=$("iframe_"+form.id);
+
+                                    var ok = false;
+                                    iframe.onload = function(){
+                                        function _getDocumentBody(){
+                                            var _content = _body = null;
+                                            var _html = '';
+                                        
+                                            //Mozilla document
+                                            try{
+                                                _content = this.contentDocument;
+                                            }catch(e){}
+
+                                            //IE document
+                                            if(typeof(_content) == 'undefined'){
+                                                try{
+                                                    _content = this.contentWindow.document; 
+                                                }catch(e2){}
+                                            }
+                                            //Ninguno document
+                                            if(typeof(_content) == 'undefined'){
+                                                //alert('sin documento');
+                                                return ''; 
+                                            }
+
+                                        }
+                                        if(this.contentWindow.location != 'about:blank'){
+                                            var tmp=_getDocumentBody();
+                                            setTimeout(function(){
+                                                try{
+                                                    ok = false;
+                                                    parent[parent._afterSubmit](tmp+'');
+                                                }catch(e){
+                                                    alert(e)
+                                                }
+                                            },100);
+                                        }else{
+                                            ok=true;
+                                        }
+                                    }
 									iframe.style.display = 'none';
 									iframe.style.border="1px solid red";
-									iframe.ok=false;
-                                    iframe._getDocumentBody= function(){
-                                        var _content = _body = null;
-                                        var _html = '';
-                                       
-                                        //Mozilla document
-                                        try{
-                                            _content = this.contentDocument;
-                                        }catch(e){}
-
-                                        //IE document
-                                        if(typeof(_content) == 'undefined'){
-                                            try{
-                                                _content = this.contentWindow.document; 
-                                            }catch(e2){
-                                                alert('e2 '+e2);
-                                            }
-                                        }
-                                        //Ninguno document
-                                        if(typeof(_content) == 'undefined'){
-                                            //alert('sin documento');
-                                            return ''; 
-                                        }
-
-                                        //Mozilla Body
-                                        try{
-                                            _body =  _content.body;
-                                        }catch(b){}
-
-                                        //IE body
-                                        if(typeof(_body) == 'undefined'){
-                                            try{
-                                                _body = _content.bodyElement ;
-                                            }catch(b2){}
-                                        }
-
-                                        //Ninguno body
-                                        if(typeof(_body) == 'undefined'){
-                                            //alert('sin body');
-                                            return ''; 
-                                        }
-
-                                        _html = _body.innerHTML;
-                                            
-                                        return _html;
-                                    }
-									/*iframe._do="parent."+_afterSubmit+"()";
-									iframe.onload = function () {
-										if(this.ok==true){
-											eval(this._do);
-										}
-										this.ok=true;
-									};
-									*/
-																		
 									
 									form.target="iframe_"+form.id;
 									form.method="POST";	
