@@ -6,6 +6,7 @@
  * @constructor
  */
 deliriumkit.prototype.delirium_search=function(parametros){	
+		this.css_row=(parametros.css_row) ? parametros.css_row: '';
         //HABILITA mostrar por default el panel de busquedas
 		this._mostrar_busqueda=parametros.mostrar_busqueda ? parametros.mostrar_busqueda : false;
         //HABILITA LA DEPURACION 
@@ -110,6 +111,9 @@ deliriumkit.prototype.delirium_search=function(parametros){
 }
 deliriumkit.prototype.delirium_search.prototype={
 	inicializar:function(id,parametros){	
+        //Clase para la fila
+		this.css_row=(parametros.css_row) ? parametros.css_row: '';
+        
         //HABILITA mostrar por default el panel de busquedas
 		this._mostrar_busqueda=parametros.mostrar_busqueda ? parametros.mostrar_busqueda : false;
 		//HABILITA LA DEPURACION 
@@ -295,7 +299,7 @@ deliriumkit.prototype.delirium_search.prototype={
 		
 		var _me=this;		
 		var panel=this._panel;
-		var _params=campos+'&tabla='+this._tabla+'&registros='+this._registros+'&where='+filtro+'&delirium_request='+this.id+'&pagina='+this.pagina+'&opciones='+this.opciones+"&excel="+this.excel+"&titulo="+encode(this.titulo)+'&base='+encode(this.busquedaHTML)+'&debug='+this.debug;
+		var _params=campos+'&tabla='+this._tabla+'&registros='+this._registros+'&where='+filtro+'&delirium_request='+this.id+'&pagina='+this.pagina+'&opciones='+this.opciones+"&excel="+this.excel+"&titulo="+encode(this.titulo)+'&base='+encode(this.busquedaHTML)+'&debug='+this.debug+'&css_row='+this.css_row;
 		
 		if(this.excel==0){
 			if (typeof(printer)!='undefined') {				
@@ -489,7 +493,7 @@ deliriumkit.prototype.delirium_search.prototype={
 		
 		var _me=this;		
 		var panel=this._panel;
-		var _params=campos+'&tabla='+this._tabla+'&registros='+this._registros+'&where='+decode(filtro)+'&delirium_request='+this.id+'&pagina='+this.pagina+'&opciones='+this.opciones+"&excel="+this.excel+"&titulo="+encode(this.titulo)+'&base='+encode(this.busquedaHTML)+'&debug='+this.debug;
+		var _params=campos+'&tabla='+this._tabla+'&registros='+this._registros+'&where='+decode(filtro)+'&delirium_request='+this.id+'&pagina='+this.pagina+'&opciones='+this.opciones+"&excel="+this.excel+"&titulo="+encode(this.titulo)+'&base='+encode(this.busquedaHTML)+'&debug='+this.debug+'&css_row='+this.css_row;
 		if(this.excel==0){
 			mvcPost('DeliriumSearch',_params,panel);			
 		}else{ 			

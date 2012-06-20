@@ -354,6 +354,7 @@ class Model_DeliriumSearch extends Model_Base {
 			$i_css=0;
 			while ($row=mysql_fetch_array($result)) {
 				$cssClass=($i_css % 2 ==0)?'':'odd';
+                $cssClass.= ' '.isset_or($row[$css_row], '');
 				$i_css++;
 				$tmp['datos'].="<tr class=\"$cssClass\">";
 				//for($i=0;$i<$total_campos; ++$i){

@@ -652,3 +652,41 @@ function send_form(form){
     form.submit();
     form.action = old_action;
 }
+
+function toNumber(str){
+    return Number(str.replace(/[^0-9\.]+/g,""));
+}
+
+function formatNumber(str, cents) {
+	num = str.toString().replace(/\$|\,/g,'');
+	if(isNaN(num)){
+		num = "0";
+	}
+	sign = (num == (num = Math.abs(num)));
+	num = Math.floor(num*100+0.50000000001);
+	cents = num%100;
+	num = Math.floor(num/100).toString();
+	if(cents<10){
+		cents = "0" + cents;
+	}
+	for (var i = 0; i < Math.floor((num.length-(1+i))/3); i++){
+		num = num.substring(0,num.length-(4*i+3))+','+
+		num.substring(num.length-(4*i+3));
+	}
+    if(cents > 0){
+        return (((sign)?'':'-') + '$ ' + num + '.' + cents);
+    }else{
+        return (((sign)?'':'-') + '' + num);
+    }
+
+}
+
+function date2mysql(dtm_fecha){
+    if(dtm_fecha == ''){
+        return '';
+    }
+    var fecha = dtm_fecha.replace('-','/');
+    fecha = fecha.split('/');
+    fecha_mysql = fecha[2] + '/' + fecha[1] + '/' + fecha[0];
+    return fecha_mysql;
+}

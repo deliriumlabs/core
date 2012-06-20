@@ -1,4 +1,8 @@
 <?php
+$_SESSION['encoding_es'] = 'iso-8859-1';
+$_SESSION['encoding_en'] = 'iso-8859-1';
+$_SESSION['encoding_jp'] = 'utf-8';
+
 //Definimos la constante del separador de directorios (/ o \)
 define ('DIRSEP', DIRECTORY_SEPARATOR);
 

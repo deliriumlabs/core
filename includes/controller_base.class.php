@@ -235,7 +235,8 @@ class Controller_Base{
 
     function renderTemplate($template,$data=array(),$writeheader=true){
         if($writeheader && !headers_sent()){
-            header('Content-Type: text/html; charset=iso-8859-1');
+            $lang = isset_or($_SESSION['lang'], 'es');
+            header('Content-Type: text/html; charset='.$_SESSION['encoding_'.$lang]);
         }
         $template = $this->app_path . 'views' . DIRSEP . $template ;
 
@@ -294,7 +295,8 @@ class Controller_Base{
 
         $template =  $template ;
         if($writeheader && !headers_sent()){
-            header('Content-Type: text/html; charset=iso-8859-1');
+            $lang = isset_or($_SESSION['lang'], 'es');
+            header('Content-Type: text/html; charset='.$_SESSION['encoding_'.$lang]);
         }
 
         $data['PATH_TPL']=$this->app_dir_name;
@@ -350,7 +352,9 @@ class Controller_Base{
 
     function getTemplate($template,$data=array(),$writeheader=true){
         if($writeheader && !headers_sent()){
-            header('Content-Type: text/html; charset=ISO-8859-1');
+            $lang = isset_or($_SESSION['lang'], 'es');
+            header('Content-Type: text/html; charset='.$_SESSION['encoding_'.$lang]);
+
             header ('Expires: Thu, 27 Mar 1980 23:59:00 GMT'); //la pagina expira en una fecha pasada
             header ('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT'); //ultima actualizacion ahora cuando la cargamos
             header('Cache-Control: no-store, no-cache, must-revalidate');
@@ -410,7 +414,8 @@ class Controller_Base{
 
     function renderText($template,$data=array(),$writeheader=true){
         if($writeheader && !headers_sent()){
-            header('Content-Type: text/html; charset=iso-8859-1');
+            $lang = isset_or($_SESSION['lang'], 'es');
+            header('Content-Type: text/html; charset='.$_SESSION['encoding_'.$lang]);
         }       
 
         $data['PATH_TPL']=$this->app_dir_name;
@@ -466,7 +471,8 @@ class Controller_Base{
 
     function getText($template,$data=array(),$writeheader=true){
         if($writeheader && !headers_sent()){
-            header('Content-Type: text/html; charset=iso-8859-1');
+            $lang = isset_or($_SESSION['lang'], 'es');
+            header('Content-Type: text/html; charset='.$_SESSION['encoding_'.$lang]);
         }       
 
         $data['PATH_TPL']=$this->app_dir_name;
@@ -596,7 +602,8 @@ class Controller_Base{
      */
     function renderScript($template,$data=array(),$writeheader=true){
         if($writeheader && !headers_sent()){
-            header('Content-Type: text/html; charset=iso-8859-1');
+            $lang = isset_or($_SESSION['lang'], 'es');
+            header('Content-Type: text/html; charset='.$_SESSION['encoding_'.$lang]);
         }
         $template = $this->app_path . 'views' . DIRSEP . $template ;
 
