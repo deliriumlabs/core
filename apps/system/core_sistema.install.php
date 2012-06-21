@@ -111,6 +111,21 @@ function instalar_tablas_core_sistema(){
         ";
     query($strSql);
 
+    $strSqlValidarColumna="
+        SHOW COLUMNS FROM 
+            core_cat_menu
+        WHERE 
+            Field='titulo_en'";
+    if(sizeof(query2array($strSqlValidarColumna))==0){
+        $strUpgrade = "
+            ALTER TABLE 
+                core_cat_menu
+            ADD COLUMN titulo_en VARCHAR(255) NULL, 
+            ADD COLUMN titulo_jp VARCHAR(255) NULL
+            ";
+        query($strUpgrade);
+    }
+
 }
 
 ?>

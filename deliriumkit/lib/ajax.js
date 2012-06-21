@@ -357,20 +357,20 @@ deliriumkit.prototype.AJAX.prototype={
 									iframe=$("iframe_"+form.id);
 
                                     var ok = false;
-                                    iframe.onload = function(){
+                                    iframe.onload = function(obj){
                                         function _getDocumentBody(){
                                             var _content = _body = null;
                                             var _html = '';
                                         
                                             //Mozilla document
                                             try{
-                                                _content = this.contentDocument;
+                                                _content = iframe.contentDocument;
                                             }catch(e){}
 
                                             //IE document
                                             if(typeof(_content) == 'undefined'){
                                                 try{
-                                                    _content = this.contentWindow.document; 
+                                                    _content = iframe.contentWindow.document; 
                                                 }catch(e2){}
                                             }
                                             //Ninguno document
@@ -378,6 +378,29 @@ deliriumkit.prototype.AJAX.prototype={
                                                 //alert('sin documento');
                                                 return ''; 
                                             }
+
+                                            //Mozilla Body
+                                            try{
+                                                _body =  _content.body;
+                                            }catch(b){}
+
+                                            //IE body
+                                            if(typeof(_body) == 'undefined'){
+                                                try{
+                                                    _body = _content.bodyElement ;
+                                                }catch(b2){}
+                                            }
+
+                                            //Ninguno body
+                                            if(typeof(_body) == 'undefined'){
+                                                //alert('sin body');
+                                                return ''; 
+                                            }
+
+                                            _html = _body.innerHTML;
+                                                
+                                            return _html;
+                                            
 
                                         }
                                         if(this.contentWindow.location != 'about:blank'){

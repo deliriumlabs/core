@@ -260,8 +260,12 @@ if(!class_exists('Controller_System')){
             $menu=$_modulo['modulo_'.$_REQUEST['uuid']]['menus'][$_REQUEST['menu']];
 
             $this->setModel('Menu');
-            if($this->model->validar_menu_uuid($menu['uuid'])){
+            $id_menu = $this->model->validar_menu_uuid($menu['uuid']);
+            if($id_menu === true){
                 $this->model->registrar_menu($menu);
+            }else{
+                $menu['id_menu'] = $id_menu;
+                $this->model->editar_menu($menu);
             }
             setMsg("Instalado :".$menu['titulo']);
             $this->renderText(notificaciones());

@@ -78,6 +78,10 @@ if(file_exists($path_root."config.php")){
         mysql_select_db(DB_NAME) or die("No se encontro la base de datos");
         $_REQUEST=sql_str_safe($_REQUEST,1);
         query("SET  lc_time_names = 'es_ES'");
+        $lang = isset_or($_SESSION['lang'], 'es');
+        if($lang == 'jp'){
+            mysql_query("SET NAMES utf8");
+        }
     }else{
         $_REQUEST=sql_str_safe($_REQUEST);
     }
