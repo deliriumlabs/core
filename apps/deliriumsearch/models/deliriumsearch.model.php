@@ -1,4 +1,5 @@
 <?php
+
 if(!class_exists('Model_DeliriumSearch')){
     
 class Model_DeliriumSearch extends Model_Base {
@@ -6,6 +7,10 @@ class Model_DeliriumSearch extends Model_Base {
         $profile = 0;
         $str_profile = '';
         $then = microtime(true);
+
+        foreach($datos as $data => $value ){
+            $datos[$data] = utf8_urldecode($value);
+        }
 		extract($datos);
         $DEBUG_QUERY = $debug ;
         $tabla=stripslashes($tabla);
@@ -64,6 +69,7 @@ class Model_DeliriumSearch extends Model_Base {
 			
 			if($campo[4]==1){
 				
+                //$campo[0] = utf8_urldecode($campo[0]);
 				if($excel==0){
 					$tmp['datos'].='<th >';
 					$tmp['datos'].="<a href=\"javascript:void(0);\" onclick=\"eval('$delirium_request').ordenar('{$campo[1]}')\">

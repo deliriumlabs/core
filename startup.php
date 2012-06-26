@@ -7,7 +7,9 @@ $_SESSION['encoding_jp'] = 'utf-8';
 define ('DIRSEP', DIRECTORY_SEPARATOR);
 
 //Obtener el path relativo del sitio, en que carpeta se encuentra
-$path_root = realpath(dirname(__FILE__) . DIRSEP . '..' . DIRSEP) . DIRSEP;
+//$path_root = realpath(dirname(__FILE__) . DIRSEP . '..' . DIRSEP) . DIRSEP;
+$path_root = getcwd() . DIRSEP;
+
 define('PATH_ROOT',$path_root);
 
 //Definir el directorio donde se encuentran las aplicaciones
