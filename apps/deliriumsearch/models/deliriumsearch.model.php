@@ -8,8 +8,10 @@ class Model_DeliriumSearch extends Model_Base {
         $str_profile = '';
         $then = microtime(true);
 
-        foreach($datos as $data => $value ){
-            $datos[$data] = utf8_urldecode($value);
+        if(isset_or($_SESSION['lang'], 'es') == 'jp'){
+            foreach($datos as $data => $value ){
+                $datos[$data] = utf8_urldecode($value);
+            }
         }
 		extract($datos);
         $DEBUG_QUERY = $debug ;
