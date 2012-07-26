@@ -117,6 +117,11 @@ if(!class_exists('Model_System')){
         }
 
         function actualizar_modulo($data){
+            $titulo = '';
+            $autor = '';
+            $version = '';
+            $ultima_version = '';
+            $info = '';
             extract($data);
             $strSql = "
                 UPDATE

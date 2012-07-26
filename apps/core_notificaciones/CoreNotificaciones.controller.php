@@ -10,7 +10,7 @@ class Controller_CoreNotificaciones extends Controller_Base{
             <div style="height:20px;padding:10px 0px;border-bottom:1px solid #D8DFEA;" >
                 <div style="vertical-align: middle;">
                     <div style=" cursor: pointer; position: relative; text-align: center; top: -50%; z-index: 1; ">
-                        <span class="texto-titulo">Notificaciones</span>
+                        <span class="texto-titulo">%LBL_NOTIFICACIONES%</span>
                         <div class="atras">
                             <div class="barra"></div>
                         </div>

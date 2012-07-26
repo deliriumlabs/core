@@ -21,6 +21,6 @@
     </tbody>
 </table>
 <div class="panel_buttons">
-    <input class="btn btn_detalle {hide_enlace}" type="button" value="Ir al enlace" onclick="{chr_enlace};{window_id}.close();"/>
+    <input class="btn btn_detalle {hide_enlace}" type="button" value="%LBL_IR_AL_ENLACE%" onclick="{chr_enlace};{window_id}.close();"/>
     <input class="btn btn_cancelar" type="button" value="Cerrar" onclick="{window_id}.close();" />
 </div>

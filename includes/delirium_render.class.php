@@ -9,7 +9,7 @@ class Template{
         if (file_exists($template)){
             $this->template = $this->parse($template);
         }else{
-            $this->template = $this->parseText($template);
+            $this->template = $template;// $this->parseText($template);
         }
     }
 
@@ -91,7 +91,7 @@ class Template{
                 }elseif (is_array($data)) {
                     $this->template=$this->replace_block_tags2array($tag,$data,$this->template);
                 }else{
-                    $this->template = preg_replace('/{' . $tag . '}/', $data,$this->template);   			   	
+                    $this->template = preg_replace('/{' . preg_quote($tag,"/") . '}/', $data,$this->template);   			   	
                 }
             }
 

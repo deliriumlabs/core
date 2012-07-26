@@ -254,6 +254,9 @@ if (!class_exists('Model_Menu')) {
             }
 
             $en_ventana = '';
+            $onclick = '';
+            $href = '';
+            $titulo = '';
             extract($data);
             $strSql = "
                 SELECT 
@@ -282,7 +285,7 @@ if (!class_exists('Model_Menu')) {
                     $campos_lang
                 WHERE id_menu='$id_menu'
                 ";
-            fb($strSQLEditarMenu);
+
             query($strSQLEditarMenu);
 
             
