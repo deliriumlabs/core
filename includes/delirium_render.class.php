@@ -91,7 +91,7 @@ class Template{
                 }elseif (is_array($data)) {
                     $this->template=$this->replace_block_tags2array($tag,$data,$this->template);
                 }else{
-                    $this->template = preg_replace('/{' . preg_quote($tag,"/") . '}/', $data,$this->template);   			   	
+                    $this->template = preg_replace('/{' . preg_quote($tag,"/") . '}/', preg_escape_back($data),$this->template);   			   	
                 }
             }
 
@@ -139,8 +139,26 @@ class Template{
         return $seccion;
     }
 
-    function output() {  	
+    function output($minify = false) {  	
         //include($this->template);  	
+        if($minify === true && 3 > 2){
+            
+            /*Eliminar espacios en blanco a la izquierda*/
+            //$this->template = str_replace(array("\t", '  ', '    ', '    '), '', $this->template);
+            $this->template = preg_replace('/^[\s\t]*/im', "\n", $this->template);
+
+            /*Remover los comentarios tipo // */
+            /*Remover los comentarios tipo / ** / */
+            $this->template = preg_replace('/(\/\*([\s\S]*?)\*\/)|(\/\/(.*)$)/m', '', $this->template);
+            //$this->template = preg_replace('#^([^"\'\/]*)//[^"\']*[\n\r]$#mU', '',  $this->template);
+
+            /*Remover los comentarios tipo / ** / */
+            //$this->template = preg_replace('!/\*[^*]*\*+([^/][^*]*\*+)*/!', '',  $this->template);
+
+            //Unir todo en una linea
+            $this->template = preg_replace("/([\r\n]*|[\r\n]+)[\s\t]*[\r\n]+/", "", $this->template);
+            
+        }
         echo $this->template;
     }
 
@@ -166,4 +184,10 @@ function str_replace_count($search,$replace,$subject,$times=1) {
     }
     return($subject);
 }
+
+function preg_escape_back($string) { 
+    // Replace $ with \$ and \ with \\ 
+    $string = preg_replace('#(?<!\\\\)(\\$|\\\\)#', '\\\\$1', $string); 
+    return $string; 
+} 
 ?>

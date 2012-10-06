@@ -246,7 +246,11 @@ function Window(options){
 
 		if(this.options.mvc!=null){
 			this.options.mvcparams+='&window_id=dw_'+this.id;							
-			mvcPost(this.options.mvc,this.options.mvcparams,'content_'+this.id,this.options.mvccallback);
+			if(this.options.method == 'get'){
+                mvcGet(this.options.mvc,this.options.mvcparams,'content_'+this.id,this.options.mvccallback);
+            }else{
+                mvcPost(this.options.mvc,this.options.mvcparams,'content_'+this.id,this.options.mvccallback);
+            }
 		}
 		this._window.refresh=function(){
 			mvcPost(self.options.mvc,self.options.mvcparams,'content_'+self.id,self.options.mvccallback);
@@ -449,15 +453,16 @@ function Window(options){
 		Window.selected.initial_y = 0;
 				
 		left=pxToNumber(Window.selected.style.left);
-		top=pxToNumber(Window.selected.style.top);				
+		_top=pxToNumber(Window.selected.style.top);				
+
 		//debug(left);
 		Window.selected.style.left = left > getDocumentX() ? (getDocumentX()-50)+"px"  : left+"px" ;
-		Window.selected.style.top  = top > getDocumentY() ? (getDocumentY()-50)+"px" : top+"px";
+		Window.selected.style.top  = _top > getDocumentY() ? (getDocumentY()-50)+"px" : top+"px";
 		
 		left=pxToNumber(Window.selected.style.left);
-		top=pxToNumber(Window.selected.style.top);
+		_top=pxToNumber(Window.selected.style.top);
 		Window.selected.style.left = left < 0 ? "0px"  : left+"px" ;
-		Window.selected.style.top  = top < 0 ? "0px" : top+"px";
+		Window.selected.style.top  = _top < 0 ? "0px" : top+"px";
 		
 		Window.selected=null;
 		Window._moving=null;

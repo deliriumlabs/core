@@ -53,8 +53,8 @@ var lista_perfiles=new dk.delirium_search({
 	campos:{
 		id_perfil:{
 			titulo:'id_perfil',
-			mostrar:false,
-			para_busqueda:false,
+			mostrar:true,
+			para_busqueda:true,
 			tipo:'numero'
 		},
 		chr_perfil:{

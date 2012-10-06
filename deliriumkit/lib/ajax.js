@@ -127,12 +127,8 @@ deliriumkit.prototype.AJAX.prototype={
 			this._httpObject=this.createHTTPObject();
 		}		
 		var timestamp = new Date();
-  		url = url+ (url.indexOf("?") > 0 ? "&" : "?")+ "timestamp="+ timestamp.getTime()+"&window_id=_666";
+  		url = url+ (url.indexOf("?") > 0 ? "&" : "?")+ "_t="+ timestamp.getTime()+"&window_id=_666&"+this.options._params;
 		this._httpObject.open('GET',url,true);			
-		//this._httpObject.open('POST',url,true);			
-		try{
-				this._httpObject.setRequestHeader("Content-Type","application/x-www-form-urlencoded");			
-			}catch(e){debug(e);}		
 
         var total_headers = this.options._headers.length;
         headers = this.options._headers;
@@ -152,7 +148,7 @@ deliriumkit.prototype.AJAX.prototype={
 		}
 		this.onComplete=this.options._onComplete;
 		this._httpObject.onreadystatechange=this.eval_state.bind(this);
-		this._httpObject.send(this.options._params);
+		this._httpObject.send();
 	},
 	doPost:function(url){
 		if(this.onProcess){
@@ -562,6 +558,43 @@ function mvcPost(mvc,params,target,callback){
 		
 	})
 	return AJAXRequest['_ajax_request'+id].doPost();	
+}
+
+function mvcGet(mvc,params,target,callback){
+	
+	if(typeof mvc=='undefined'){
+		alert('MVC Incorrecto');
+	}
+	
+	if(typeof target!='undefined'){
+		target=target.replace(new RegExp('"','g'),'');
+	}
+
+	
+	params=(typeof params=='undefined')?'':params;
+	var id=new UUID();
+	//AJAXRequestCount++;
+
+	AJAXRequest['_ajax_request'+id]=new dk.AJAX({write_to:target,url:'raw.php'});
+	AJAXRequest['_ajax_request'+id].setParams('do='+mvc+'&'+params);
+	AJAXRequest['_ajax_request'+id].callback=callback;
+	
+	AJAXRequest['_ajax_request'+id].callback =(typeof callback =="string")?eval(callback):callback;
+	if(typeof AJAXRequest['_ajax_request'+id].callback !='function'){
+		AJAXRequest['_ajax_request'+id].callback=function(){return true;}
+	}	
+				
+	AJAXRequest['_ajax_request'+id].setOnComplete(function(){
+		
+		try{
+		AJAXRequest['_ajax_request'+id].responseText=(typeof AJAXRequest['_ajax_request'+id].responseText!='undefined')?AJAXRequest['_ajax_request'+id].responseText:'';		
+		AJAXRequest['_ajax_request'+id].callback(AJAXRequest['_ajax_request'+id].responseText);		
+		}catch(aerr){debug('Ajax Callback'+AJAXRequest+' '+aerr);}		
+		AJAXRequest['_ajax_request'+id]=null;
+		delete AJAXRequest['_ajax_request'+id];		
+		
+	})
+	return AJAXRequest['_ajax_request'+id].doGet();	
 }
 
 function urlPost(_url,params,target,callback, headers){

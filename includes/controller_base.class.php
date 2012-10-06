@@ -11,6 +11,7 @@ class Controller_Base{
     private $app_path;
     public $apps_path;
     public $app_name;
+    var $minify = false;
     var $test_session = true;
     var $bypass_session = array();
 
@@ -288,7 +289,7 @@ class Controller_Base{
         }
         /*###############ARCHIVO DE LENGUAJE GLOBAL#######################*/
 
-        $template->output();
+        $template->output($this->minify);
     }
 
     function renderTemplateExternal($template,$data=array(),$writeheader=true){

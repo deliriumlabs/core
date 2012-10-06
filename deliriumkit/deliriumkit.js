@@ -68,13 +68,13 @@ function delirium_init(){
 	//include_javascript_file(deliriumkit.prototype.settings['path']+'lib/functions.js');
 	include_javascript_file(deliriumkit.prototype.settings['path']+'lib/screen.js');
 	include_javascript_file(deliriumkit.prototype.settings['path']+'lib/String.js');
-	include_javascript_file(deliriumkit.prototype.settings['path']+'lib/ajax.js');	
+	include_javascript_file(deliriumkit.prototype.settings['path']+'lib/ajax.js?timestamp={timestamp}');	
 	include_javascript_file(deliriumkit.prototype.settings['path']+'lib/Suggest.js');
 	//include_javascript_file(deliriumkit.prototype.settings['path']+'lib/Search.js');
 	include_javascript_file('raw.php?do=system::get_js_search&timestamp={timestamp}');
 	include_javascript_file('raw.php?do=system::get_js_funciones&timestamp={timestamp}');
 	include_javascript_file(deliriumkit.prototype.settings['path']+'lib/Dom.js');
-	include_javascript_file(deliriumkit.prototype.settings['path']+'lib/Window.js');
+	include_javascript_file(deliriumkit.prototype.settings['path']+'lib/Window.js?timestamp={timestamp}');
 	include_javascript_file(deliriumkit.prototype.settings['path']+'lib/Animations.js');
 	include_javascript_file(deliriumkit.prototype.settings['path']+'lib/Transitions.js');	
 	//include_css('deliriumkit.css');
