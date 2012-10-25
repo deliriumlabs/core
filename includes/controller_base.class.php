@@ -45,20 +45,31 @@ class Controller_Base{
         if($app!=""){
             $this->app_name=$app;
 
-            $this->app_path=$this->searchFilePathRecurse(PATH_APPS,$app.'.controller.php');
+            $this->app_path = '';
+            $this->app_path = isset_or($_SESSION['controllers'][strtolower($app)], '');
             if($this->app_path==""){
-                $this->app_path=$this->searchFilePathRecurse(PATH_CORE_APPS,$app.'.controller.php');
-                $in_core = 1;
-            }            
+                $this->app_path=$this->searchFilePathRecurse(PATH_APPS,$app.'.controller.php');
+
+                if($this->app_path==""){
+                    $this->app_path=$this->searchFilePathRecurse(PATH_CORE_APPS,$app.'.controller.php');
+                    $in_core = 1;
+                }            
+            }
         }else{
             $this->app_name=$parts[0];
-            $this->app_path=$this->searchFilePathRecurse(PATH_APPS,$parts[0].'.controller.php');
 
+            $this->app_path = '';
+            $this->app_path = isset_or($_SESSION['controllers'][strtolower($parts[0])], '');
             if($this->app_path==""){
-                $this->app_path=$this->searchFilePathRecurse(PATH_CORE_APPS,$parts[0].'.controller.php');
-                $in_core = 1;
-            }             
+                $this->app_path=$this->searchFilePathRecurse(PATH_APPS,$parts[0].'.controller.php');
+
+                if($this->app_path==""){
+                    $this->app_path=$this->searchFilePathRecurse(PATH_CORE_APPS,$parts[0].'.controller.php');
+                    $in_core = 1;
+                }             
+            }
         }
+        $this->app_path = dirname($this->app_path).DIRSEP;
         $this->app_path=str_replace("\\","/",$this->app_path);
         $this->app_path=str_replace("//","/",$this->app_path);
 
@@ -73,6 +84,10 @@ class Controller_Base{
     }
 
     function searchFilePathRecurse($dirName,$pattern,$more=true) {
+        //$debuginfo = debug_backtrace();
+        //$debug_str = 'Buscando: '.$pattern.'<br/><b>Archivo</b> : '.$debuginfo[0]['file'].'<br />';
+        //$debug_str .= '<b>Linea</b> : '.$debuginfo[0]['line'].'<br />';
+        //fb($debug_str);
         $file='';
         $path=false;
         if(!is_dir($dirName)){
@@ -84,9 +99,13 @@ class Controller_Base{
             '..', 
             '.DS_Store', 
             '.svn', 
-            'views' 
+            'views',
+           'lang' 
         );
         while(false !== ($incFile = readdir($dirHandle))) {
+            if(in_array($incFile, $type_avoid)){
+                continue;
+            }
             if(is_file("$dirName/$incFile")){
                 $file_name=$dirName.$incFile;
                 if(strtoupper($incFile) == strtoupper($pattern)){
@@ -94,7 +113,7 @@ class Controller_Base{
                     closedir($dirHandle);
                     return $path;
                 }
-            }elseif(!in_array($incFile, $type_avoid) && is_dir("$dirName/$incFile") ){
+            }elseif(is_dir("$dirName/$incFile") ){
                 if($more){
                     $path=$this->searchFilePathRecurse($dirName.$incFile.DIRSEP,$pattern,true);
                     if($path!=false){
@@ -121,9 +140,13 @@ class Controller_Base{
             '..', 
             '.DS_Store', 
             '.svn', 
-            'views' 
+            'views',
+           'lang' 
         );
         while(false !== ($incFile = readdir($dirHandle))) {
+            if(in_array($incFile, $type_avoid)){
+                continue;
+            }
             if(is_file("$dirName/$incFile")){
                 $file_name=$dirName.$incFile;
                 if(strtoupper($incFile) == strtoupper($pattern)){
@@ -131,8 +154,7 @@ class Controller_Base{
                     closedir($dirHandle);
                     return $file_name;
                 }
-            //}elseif($incFile != '.' && $incFile != '..' && $incFile != '.DS_Store' && $incFile != '.svn' && filetype("$dirName/$incFile") == 'dir'){
-            }elseif(!in_array($incFile, $type_avoid) && is_dir("$dirName/$incFile") ){
+            }elseif(is_dir("$dirName/$incFile") ){
                 if($more){
                     $path=$this->searchFileRecurse($dirName.$incFile.DIRSEP,$pattern,true);
                     if($path!=false){
@@ -211,6 +233,37 @@ class Controller_Base{
     function loadController($controller){
 
         $controller_path = '';
+        $controller_path = isset_or($_SESSION['controllers'][strtolower($controller)], '');
+        if($controller_path == ''){
+            $controller_path = $this->searchFileRecurse(PATH_APPS,$controller.'.controller.php');
+            $_SESSION['controllers'][strtolower($controller)] = $controller_path;
+        }
+        $in_core = 0;
+        if($controller_path == ''){
+            $controller_path = $this->searchFileRecurse(PATH_CORE_APPS,$controller.'.controller.php');
+            $_SESSION['controllers'][strtolower($controller)] = $controller_path;
+            $in_core = 1;
+        }            
+
+        /*$controller_path=str_replace('\\','/',$controller_path);*/
+        /*$controller_path=str_replace('//','/',$controller_path);*/
+
+        /*$strloc = strrpos($controller_path,'/apps/');*/
+
+        /*$controller_path = substr($controller_path,$strloc+1);*/
+
+        /*if($in_core==1){*/
+            /*$controller_path='core/'.$controller_path;*/
+        /*}*/
+        /*fb($controller_path);*/
+
+        if( filetype($controller_path) == 'file'){
+            include($controller_path);
+        }else{
+            die ("<div class='error'>Controlador <i>$controller</i> no encontrado</div> ");
+        }
+        /*
+        $controller_path = '';
         $controller_path = $this->searchFileRecurse(PATH_APPS,$controller.'.controller.php');
         $in_core = 0;
         if($controller_path == ''){
@@ -232,6 +285,7 @@ class Controller_Base{
         if( !class_exists('Controller_'.$controller) ){
             include ($controller_path);
         }
+         */
     }
 
     function renderTemplate($template,$data=array(),$writeheader=true){

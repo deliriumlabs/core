@@ -114,6 +114,15 @@ $router->setPath($path_apps);
 
 //Delegar
 $registry->set('path_root', $path_root);
+
+//Guardar los paths de los controllers
+if(!isset($_SESSION['controllers']) ){
+    $_SESSION['controllers'] = array();
+
+    cache_controllers(PATH_APPS);
+    cache_controllers(PATH_CORE_APPS);
+}
+
 $router->delegate();
 
 //Cerrar la conexion

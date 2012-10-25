@@ -14,12 +14,17 @@ function includeRecurse($dirName,$more=true) {
         '..', 
         '.DS_Store', 
         '.svn',
-        'views' 
+        'views',
+       'lang' 
    );
    while(false !== ($incFile = readdir($dirHandle))) {   		
-		if(!in_array($incFile, $type_avoid) && !stristr($incFile,'install.php') && !stristr($incFile,'model.php') &&!stristr($incFile,'controller.php')){	           
+        if(in_array($incFile, $type_avoid)){
+            continue;
+        }
+		//if(!in_array($incFile, $type_avoid) && !stristr($incFile,'install.php') && !stristr($incFile,'model.php') &&!stristr($incFile,'controller.php')){	           
+		if(!stristr($incFile,'install.php') && !stristr($incFile,'model.php') &&!stristr($incFile,'controller.php')){	           
             include($dirName.$incFile);
-        }elseif(!in_array($incFile, $type_avoid) && is_dir("$dirName/$incFile") ){
+        }elseif(is_dir("$dirName/$incFile") ){
 			if($more){						
                 includeRecurse($dirName.$incFile.DIRSEP,true);				
 			}
@@ -27,6 +32,39 @@ function includeRecurse($dirName,$more=true) {
    }
    
    closedir($dirHandle);
+}
+
+
+function cache_controllers($dirName, $more=true) {
+    if(!is_dir($dirName)){
+        return false;
+    }
+    $dirHandle = opendir($dirName);
+    $type_avoid= array(
+        '.', 
+        '..', 
+        '.DS_Store', 
+        '.svn', 
+        'views',
+        'lang' 
+    );
+    while(false !== ($incFile = readdir($dirHandle))) {
+        if(in_array($incFile, $type_avoid)){
+            continue;
+        }
+        if(stristr($incFile,'controller.php') ){
+            $file_name=$dirName.$incFile;
+            $controller = explode('.', strtolower($incFile));
+            if(!isset($_SESSION['controllers'][$controller[0]])){
+                $_SESSION['controllers'][$controller[0]] = $file_name;
+            }
+        }elseif(is_dir("$dirName/$incFile") ){
+            if($more){
+                cache_controllers($dirName.$incFile.DIRSEP, true);
+            }
+        }
+    }
+    closedir($dirHandle);
 }
 
 function _autoload($class_name) {

@@ -35,7 +35,6 @@ class Router{
     }   
 
     function find_controller($controller,&$cmd_path){					
-
         global $path_apps;  
 
         $dirName=$path_apps;
@@ -44,7 +43,18 @@ class Router{
             return false;
         }	
         $file=$controller.'.controller.php';		
-        $this->searchRecurse($cmd_path,$file,$dirName);
+
+        $controller_path = isset_or($_SESSION['controllers'][strtolower($controller)], '');
+        if($controller_path == ''){
+            $controller_path = $this->searchRecurse($cmd_path,$file,$dirName);
+            $_SESSION['controllers'][strtolower($controller)] = $controller_path;
+        }else{
+            $cmd_path = basename($controller_path);
+        }
+
+        if( filetype($controller_path) == 'file'){
+            include($controller_path);
+        }
     }
 
     function find_controller_core($dirName,$pattern,$more=true){                   
@@ -81,6 +91,7 @@ class Router{
 
     function searchRecurse(&$path,$pattern,$dirName,$more=true) {
         $file='';
+        //$dirName = $path;
         $path=false;
         if(!is_dir($dirName)){
             return false;
@@ -91,10 +102,15 @@ class Router{
             '..', 
             '.DS_Store', 
             '.svn', 
-            'views' 
+            'views',
+            'lang' 
         );
         while(false !== ($incFile = readdir($dirHandle))) {
-            if(is_file("$dirName/$incFile")){
+            if(in_array($incFile, $type_avoid)){
+                continue;
+            }
+            //if(!stristr($incFile,'controller.php') && is_file("$dirName/$incFile")){
+            if(stristr($incFile,'controller.php') ){
                 $file_name=$dirName.$incFile;
                 if(strtoupper($incFile) == strtoupper($pattern)){
                     $path=$dirName;
@@ -102,7 +118,7 @@ class Router{
                     return $file_name;
                 }
             //}elseif($incFile != '.' && $incFile != '..' && $incFile != '.DS_Store' && $incFile != '.svn' && filetype("$dirName/$incFile") == 'dir'){
-            }elseif(!in_array($incFile, $type_avoid) && is_dir("$dirName/$incFile") ){
+            }elseif(is_dir("$dirName/$incFile") ){
                 if($more){
                     $path=$this->searchFileRecurse($dirName.$incFile.DIRSEP,$pattern,true);
                     if($path!=false){
@@ -204,17 +220,22 @@ class Router{
             '..', 
             '.DS_Store', 
             '.svn', 
-            'views' 
+            'views',
+            'lang' 
         );
         while(false !== ($incFile = readdir($dirHandle))) {
-            if(is_file("$dirName/$incFile")){
+            if(in_array($incFile, $type_avoid)){
+                continue;
+            }
+            //if(is_file("$dirName/$incFile")){
+            if(stristr($incFile,'controller.php') ){
                 $file_name=$dirName.$incFile;
                 if(strtoupper($incFile) == strtoupper($pattern)){
                     $path=$dirName;
                     closedir($dirHandle);
                     return $file_name;
                 }
-            }elseif(!in_array($incFile, $type_avoid) && is_dir("$dirName/$incFile") ){
+            }elseif(is_dir("$dirName/$incFile") ){
                 if($more){
                     $path=$this->searchFileRecurse($dirName.$incFile.DIRSEP,$pattern,true);
                     if($path!=false){
@@ -232,23 +253,29 @@ class Router{
     function loadController($controller){
 
         $controller_path = '';
-        $controller_path = $this->searchFileRecurse(PATH_APPS,$controller.'.controller.php');
+        $controller_path = isset_or($_SESSION['controllers'][strtolower($controller)], '');
+        if($controller_path == ''){
+            $controller_path = $this->searchFileRecurse(PATH_APPS,$controller.'.controller.php');
+            $_SESSION['controllers'][strtolower($controller)] = $controller_path;
+        }
         $in_core = 0;
         if($controller_path == ''){
             $controller_path = $this->searchFileRecurse(PATH_CORE_APPS,$controller.'.controller.php');
+            $_SESSION['controllers'][strtolower($controller)] = $controller_path;
             $in_core = 1;
         }            
 
-        $controller_path=str_replace('\\','/',$controller_path);
-        $controller_path=str_replace('//','/',$controller_path);
+        /*$controller_path=str_replace('\\','/',$controller_path);*/
+        /*$controller_path=str_replace('//','/',$controller_path);*/
 
-        $strloc = strrpos($controller_path,'/apps/');
+        /*$strloc = strrpos($controller_path,'/apps/');*/
 
-        $controller_path = substr($controller_path,$strloc+1);
+        /*$controller_path = substr($controller_path,$strloc+1);*/
 
-        if($in_core==1){
-            $controller_path='core/'.$controller_path;
-        }
+        /*if($in_core==1){*/
+            /*$controller_path='core/'.$controller_path;*/
+        /*}*/
+        /*fb($controller_path);*/
 
         if( filetype($controller_path) == 'file'){
             include($controller_path);

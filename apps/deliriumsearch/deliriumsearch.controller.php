@@ -21,6 +21,7 @@ class Controller_DeliriumSearch extends Controller_Base {
                 
                 $this->renderTemplate('view_result_search_print.tpl',$this->model->search($_REQUEST));
             }else{
+                $this->minify = true;
             	$this->renderTemplate('view_result_search.tpl',$this->model->search($_REQUEST));
             }	
 		}	

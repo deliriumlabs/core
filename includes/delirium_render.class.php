@@ -76,7 +76,8 @@ class Template{
         $lang=$lang[$languaje_id];
         if (sizeof($lang) > 0){
             foreach ($lang as $tag => $data) {			    			   	
-                $this->template = preg_replace('/%' . preg_quote($tag,"/") . '%/', $data,$this->template);   			   				   	
+                $this->template = str_replace('%' . preg_quote($tag,"/") . '%', $data,$this->template);   			   				   	
+                //$this->template = preg_replace('/%' . preg_quote($tag,"/") . '%/', $data,$this->template);   			   				   	
             }		    
         }else{
             //die("No hay tags que remplazar.");
@@ -91,7 +92,8 @@ class Template{
                 }elseif (is_array($data)) {
                     $this->template=$this->replace_block_tags2array($tag,$data,$this->template);
                 }else{
-                    $this->template = preg_replace('/{' . preg_quote($tag,"/") . '}/', preg_escape_back($data),$this->template);   			   	
+                    $this->template = str_replace('{' . preg_quote($tag,"/") . '}', $data,$this->template);   			   	
+                    //$this->template = preg_replace('/{' . preg_quote($tag,"/") . '}/', preg_escape_back($data),$this->template);   			   	
                 }
             }
 
@@ -119,7 +121,8 @@ class Template{
                 $block_page='';					
 
                 $total_items_array = sizeof($array);
-                for ( $x=0; $x < $total_items_array; ++$x ) {
+                //for ( $x=0; $x < $total_items_array; ++$x ) {
+                $x = 0; while ($x< $total_items_array) {
                     $block = $blockcode;
                     $tags=$array[$x];
                     foreach ($tags as $tag => $data) {	
@@ -130,7 +133,10 @@ class Template{
                         }
                     } 
                     $block_page .= $block ."\n";			 	
+               
+                    ++$x;
                 }
+ 
                 return str_replace($return_block, $block_page, $seccion);
                 unset($block_page); 
             }
@@ -149,7 +155,7 @@ class Template{
 
             /*Remover los comentarios tipo // */
             /*Remover los comentarios tipo / ** / */
-            $this->template = preg_replace('/(\/\*([\s\S]*?)\*\/)|(\/\/(.*)$)/m', '', $this->template);
+            $this->template = preg_replace('/(\/\*([\s\S]*?)\*\/)|([^:]\/\/(.*)$)/m', '', $this->template);
             //$this->template = preg_replace('#^([^"\'\/]*)//[^"\']*[\n\r]$#mU', '',  $this->template);
 
             /*Remover los comentarios tipo / ** / */
